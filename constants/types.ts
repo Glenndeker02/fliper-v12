@@ -143,8 +143,11 @@ export interface Lesson {
 export interface LessonStep {
   number: number;
   title: string;
-  description: string;
-  imageUrl: string;
+  instruction: string;
+  keyPoints: string[];
+  safetyNote?: string;
+  imageUrl?: string;
+  description?: string; // deprecated, use instruction
   proTip?: string;
   warning?: string;
 }
