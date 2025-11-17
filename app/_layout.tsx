@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { DownloadsProvider } from '@/contexts/DownloadsContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,6 +23,8 @@ function RootLayoutNav() {
       <Stack.Screen name="lessons/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="dryland/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="marketplace" options={{ headerShown: false }} />
+      <Stack.Screen name="downloads" options={{ headerShown: false }} />
+      <Stack.Screen name="challenges" options={{ headerShown: false }} />
       <Stack.Screen name="auth/forgot-password" options={{ headerShown: false }} />
       <Stack.Screen name="auth/reset-password" options={{ headerShown: false }} />
       <Stack.Screen name="auth/confirm-email" options={{ headerShown: false }} />
@@ -38,9 +41,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ThemeProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <RootLayoutNav />
-          </GestureHandlerRootView>
+          <DownloadsProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <RootLayoutNav />
+            </GestureHandlerRootView>
+          </DownloadsProvider>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

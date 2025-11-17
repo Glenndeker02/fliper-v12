@@ -470,3 +470,38 @@ export interface ChallengeLeaderboardEntry {
   isCurrentUser: boolean;
   completedAt?: string;
 }
+
+// Offline Downloads Types (P2)
+export interface VideoDownload {
+  id: string;
+  videoId: string;
+  lessonId: string;
+  title: string;
+  thumbnailUrl?: string;
+  duration: number;
+  quality: 'low' | 'medium' | 'high' | 'auto';
+  fileSize: number; // in bytes
+  fileSizeFormatted: string; // e.g., "125 MB"
+  status: 'pending' | 'downloading' | 'paused' | 'completed' | 'failed';
+  progress: number; // 0-100
+  downloadedBytes: number;
+  downloadedAt?: string;
+  expiresAt?: string; // Some downloads may have expiration
+  error?: string;
+  localUri?: string; // Local file path when downloaded
+}
+
+export interface DownloadQueueItem extends VideoDownload {
+  priority: number; // Lower number = higher priority
+  retryCount: number;
+  startedAt?: string;
+  pausedAt?: string;
+}
+
+export interface DownloadStats {
+  totalDownloads: number;
+  completedDownloads: number;
+  totalSize: number;
+  usedStorage: number;
+  activeDownloads: number;
+}

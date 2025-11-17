@@ -15,6 +15,7 @@ import {
   Trophy,
   Share2,
   ShoppingBag,
+  Download,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
@@ -148,7 +149,7 @@ export default function MoreScreen() {
 
           {/* Marketplace Card */}
           <View style={styles.section}>
-            <Pressable 
+            <Pressable
               style={styles.marketplaceCard}
               onPress={openMarketplace}
             >
@@ -158,6 +159,25 @@ export default function MoreScreen() {
                   <Text style={styles.marketplaceTitle}>Marketplace</Text>
                   <Text style={styles.marketplaceDescription}>
                     Discover, shop and equip yourself with all you need for your swimming experience.
+                  </Text>
+                </View>
+                <ChevronRight size={20} color={Colors.text.light} />
+              </View>
+            </Pressable>
+          </View>
+
+          {/* Downloads Card */}
+          <View style={styles.section}>
+            <Pressable
+              style={styles.marketplaceCard}
+              onPress={() => router.push('/downloads' as any)}
+            >
+              <View style={styles.marketplaceCardContent}>
+                <Download size={24} color={Colors.primary.turquoise} />
+                <View style={styles.marketplaceTextContainer}>
+                  <Text style={styles.marketplaceTitle}>Downloads</Text>
+                  <Text style={styles.marketplaceDescription}>
+                    Manage your offline videos and watch lessons anywhere.
                   </Text>
                 </View>
                 <ChevronRight size={20} color={Colors.text.light} />
@@ -186,7 +206,7 @@ export default function MoreScreen() {
                 icon={<Trophy size={20} color={Colors.accent.warning} />}
                 title="Challenges"
                 subtitle="Join competitions and earn rewards"
-                onPress={() => {}}
+                onPress={() => router.push('/challenges' as any)}
               />
               <View style={styles.divider} />
               <SettingItem
