@@ -419,3 +419,54 @@ export interface CommunityFilter {
   label: string;
   icon?: string;
 }
+
+// Challenge/Competition Types (P2)
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  type: 'distance' | 'time' | 'streak' | 'lessons' | 'dryland';
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'all-levels';
+  goal: {
+    type: 'distance' | 'time' | 'count' | 'streak';
+    target: number;
+    unit: string; // 'meters', 'minutes', 'lessons', 'days'
+  };
+  rewards: {
+    xp: number;
+    badge?: string;
+    title?: string;
+  };
+  startDate: string;
+  endDate: string;
+  participantCount: number;
+  status: 'upcoming' | 'active' | 'completed';
+  imageUrl?: string;
+  rules: string[];
+}
+
+export interface ChallengeParticipation {
+  challengeId: string;
+  userId: string;
+  joinedAt: string;
+  currentProgress: number;
+  lastUpdated: string;
+  isCompleted: boolean;
+  completedAt?: string;
+  rank?: number;
+}
+
+export interface ChallengeLeaderboard {
+  challengeId: string;
+  entries: ChallengeLeaderboardEntry[];
+  userEntry?: ChallengeLeaderboardEntry;
+}
+
+export interface ChallengeLeaderboardEntry {
+  rank: number;
+  user: CommunityUser;
+  progress: number;
+  progressPercentage: number;
+  isCurrentUser: boolean;
+  completedAt?: string;
+}

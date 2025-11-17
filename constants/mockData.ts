@@ -1,4 +1,4 @@
-import { Module, Lesson, Exercise, PoolSession, DrylandRoutine, CommunityPost, CommunityUser, CommunityReaction } from './types';
+import { Module, Lesson, Exercise, PoolSession, DrylandRoutine, CommunityPost, CommunityUser, CommunityReaction, Challenge, ChallengeLeaderboardEntry } from './types';
 
 export const MODULES: Module[] = [
   {
@@ -1540,3 +1540,267 @@ export const COMMUNITY_POSTS: CommunityPost[] = [
     tags: ['story', 'open-water', 'achievement'],
   },
 ];
+
+// Mock Challenges (P2)
+export const CHALLENGES: Challenge[] = [
+  {
+    id: 'challenge-1',
+    title: '🌊 Weekly Warrior',
+    description: 'Complete 500 meters of swimming this week! Track your pool sessions and hit this milestone to prove you\'re committed to your swimming journey.',
+    type: 'distance',
+    difficulty: 'all-levels',
+    goal: {
+      type: 'distance',
+      target: 500,
+      unit: 'meters',
+    },
+    rewards: {
+      xp: 500,
+      badge: 'weekly-warrior',
+      title: 'Weekly Warrior',
+    },
+    startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // Started 3 days ago
+    endDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(), // Ends in 4 days
+    participantCount: 2847,
+    status: 'active',
+    imageUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
+    rules: [
+      'Track all pool practice sessions',
+      'Only pool sessions count toward distance',
+      'Challenge ends Sunday at 11:59 PM',
+      'Top 100 finishers get bonus XP',
+    ],
+  },
+  {
+    id: 'challenge-2',
+    title: '🔥 30-Day Streak Master',
+    description: 'Build consistency! Complete at least one swimming activity (lesson, pool session, or dryland) every day for 30 consecutive days.',
+    type: 'streak',
+    difficulty: 'intermediate',
+    goal: {
+      type: 'streak',
+      target: 30,
+      unit: 'days',
+    },
+    rewards: {
+      xp: 1500,
+      badge: 'streak-master',
+      title: 'Streak Master',
+    },
+    startDate: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(), // Started 12 days ago
+    endDate: new Date(Date.now() + 18 * 24 * 60 * 60 * 1000).toISOString(), // Ends in 18 days
+    participantCount: 1523,
+    status: 'active',
+    imageUrl: 'https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?w=800',
+    rules: [
+      'Complete minimum 1 activity per day',
+      'Lessons, pool sessions, and dryland all count',
+      'Missing one day resets your streak',
+      'Challenge duration is 30 days from start',
+    ],
+  },
+  {
+    id: 'challenge-3',
+    title: '📚 Knowledge Sprint',
+    description: 'Expand your swimming knowledge! Complete 10 video lessons this week to master new techniques and skills.',
+    type: 'lessons',
+    difficulty: 'beginner',
+    goal: {
+      type: 'count',
+      target: 10,
+      unit: 'lessons',
+    },
+    rewards: {
+      xp: 300,
+      badge: 'knowledge-sprint',
+    },
+    startDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // Started 2 days ago
+    endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // Ends in 5 days
+    participantCount: 4231,
+    status: 'active',
+    imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800',
+    rules: [
+      'Complete full video lessons',
+      'Skipping through videos doesn\'t count',
+      'All skill levels welcome',
+      'Dryland lesson videos count too',
+    ],
+  },
+  {
+    id: 'challenge-4',
+    title: '💪 Dryland Dedication',
+    description: 'Build strength outside the pool! Complete 15 dryland workout sessions to improve your swimming power and endurance.',
+    type: 'dryland',
+    difficulty: 'intermediate',
+    goal: {
+      type: 'count',
+      target: 15,
+      unit: 'sessions',
+    },
+    rewards: {
+      xp: 600,
+      badge: 'dryland-dedicated',
+      title: 'Dryland Dedicated',
+    },
+    startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // Started 7 days ago
+    endDate: new Date(Date.now() + 23 * 24 * 60 * 60 * 1000).toISOString(), // Ends in 23 days (30-day challenge)
+    participantCount: 982,
+    status: 'active',
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800',
+    rules: [
+      'Complete full dryland routines',
+      'Custom and pre-built routines both count',
+      'Minimum 10 minutes per session',
+      '30-day time limit',
+    ],
+  },
+  {
+    id: 'challenge-5',
+    title: '⏱️ Time Trial Champion',
+    description: 'Push your limits! Accumulate 120 minutes of active swimming time in pool sessions this week.',
+    type: 'time',
+    difficulty: 'advanced',
+    goal: {
+      type: 'time',
+      target: 120,
+      unit: 'minutes',
+    },
+    rewards: {
+      xp: 800,
+      badge: 'time-trial-champ',
+      title: 'Time Trial Champion',
+    },
+    startDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // Started yesterday
+    endDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(), // Ends in 6 days
+    participantCount: 567,
+    status: 'active',
+    imageUrl: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=800',
+    rules: [
+      'Only active swimming time counts',
+      'Rest periods don\'t count',
+      'Pool practice sessions only',
+      'Weekly reset on Mondays',
+    ],
+  },
+  {
+    id: 'challenge-6',
+    title: '🏊 Summer Splash Challenge',
+    description: 'Get ready for summer! Complete 1000 meters of swimming over the next 2 weeks. Perfect for building endurance.',
+    type: 'distance',
+    difficulty: 'intermediate',
+    goal: {
+      type: 'distance',
+      target: 1000,
+      unit: 'meters',
+    },
+    rewards: {
+      xp: 1000,
+      badge: 'summer-splash',
+      title: 'Summer Swimmer',
+    },
+    startDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // Starts in 2 days
+    endDate: new Date(Date.now() + 16 * 24 * 60 * 60 * 1000).toISOString(), // 2-week duration
+    participantCount: 3456,
+    status: 'upcoming',
+    imageUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
+    rules: [
+      'All pool sessions count',
+      'Track your distance accurately',
+      '2-week time limit',
+      'Beginner and intermediate swimmers encouraged',
+    ],
+  },
+];
+
+// Mock leaderboard entries for challenges
+const MOCK_USERS_FOR_LEADERBOARD: any[] = [
+  {
+    id: 'user-1',
+    name: 'Sarah Johnson',
+    avatarUrl: 'https://i.pravatar.cc/150?img=1',
+    skillLevel: 'beginner-2',
+    badges: ['first-lesson', '7-day-streak'],
+  },
+  {
+    id: 'user-2',
+    name: 'Mike Chen',
+    avatarUrl: 'https://i.pravatar.cc/150?img=3',
+    skillLevel: 'intermediate-1',
+    badges: ['30-day-streak', '50-lessons'],
+  },
+  {
+    id: 'user-3',
+    name: 'Emma Rodriguez',
+    avatarUrl: 'https://i.pravatar.cc/150?img=5',
+    skillLevel: 'beginner-1',
+    badges: ['first-lesson'],
+  },
+  {
+    id: 'user-5',
+    name: 'Alex Kim',
+    avatarUrl: 'https://i.pravatar.cc/150?img=7',
+    skillLevel: 'intermediate-2',
+    badges: ['100-day-streak', '100-lessons', 'technique-master'],
+  },
+  {
+    id: 'user-6',
+    name: 'Jessica Lee',
+    avatarUrl: 'https://i.pravatar.cc/150?img=10',
+    skillLevel: 'beginner-2',
+    badges: ['7-day-streak', '10-lessons'],
+  },
+  {
+    id: 'user-7',
+    name: 'David Martinez',
+    avatarUrl: 'https://i.pravatar.cc/150?img=12',
+    skillLevel: 'intermediate-1',
+    badges: ['30-day-streak', '25-lessons'],
+  },
+  {
+    id: 'user-current',
+    name: 'You',
+    avatarUrl: 'https://i.pravatar.cc/150?img=20',
+    skillLevel: 'beginner-2',
+    badges: ['first-lesson', '7-day-streak'],
+  },
+];
+
+export const getChallengeLeaderboard = (challengeId: string): ChallengeLeaderboardEntry[] => {
+  const challenge = CHALLENGES.find(c => c.id === challengeId);
+  if (!challenge) return [];
+
+  // Generate mock leaderboard based on challenge type
+  const entries: ChallengeLeaderboardEntry[] = MOCK_USERS_FOR_LEADERBOARD.slice(0, 6).map((user, index) => {
+    const isCurrentUser = user.id === 'user-current';
+    let progress = 0;
+
+    if (challenge.type === 'distance') {
+      progress = challenge.goal.target - (index * 50) - Math.random() * 50;
+    } else if (challenge.type === 'streak') {
+      progress = challenge.goal.target - (index * 3) - Math.floor(Math.random() * 3);
+    } else if (challenge.type === 'lessons') {
+      progress = challenge.goal.target - (index * 1) - Math.floor(Math.random() * 2);
+    } else if (challenge.type === 'time') {
+      progress = challenge.goal.target - (index * 15) - Math.random() * 15;
+    } else {
+      progress = challenge.goal.target - (index * 2) - Math.floor(Math.random() * 2);
+    }
+
+    // Current user is at rank 23
+    if (isCurrentUser) {
+      progress = challenge.goal.target * 0.68; // 68% complete
+    }
+
+    return {
+      rank: isCurrentUser ? 23 : index + 1,
+      user,
+      progress: Math.max(0, Math.min(progress, challenge.goal.target)),
+      progressPercentage: Math.min(100, (progress / challenge.goal.target) * 100),
+      isCurrentUser,
+      completedAt: progress >= challenge.goal.target ? new Date().toISOString() : undefined,
+    };
+  });
+
+  // Sort by progress descending
+  return entries.sort((a, b) => b.progress - a.progress);
+};
