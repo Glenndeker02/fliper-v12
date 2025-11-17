@@ -1,195 +1,334 @@
 import { useRouter } from 'expo-router';
-import { ArrowLeft, Award, Trophy } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Filter, Trophy, Lock } from 'lucide-react-native';
+import React, { useState, useMemo } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
+  SectionList,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/constants/colors';
+import AchievementBadge from '@/components/AchievementBadge';
+import AchievementUnlockModal from '@/components/AchievementUnlockModal';
 import {
   Achievement,
-  AchievementType,
-  getAchievementProgress,
+  AchievementCategory,
+  AchievementTier,
+  ACHIEVEMENTS,
+  getAchievementsByCategory,
+  calculateAchievementProgress,
+  isAchievementUnlocked,
+  getAchievementStats,
+  getCategoryName,
+  getCategoryIcon,
 } from '@/utils/achievements';
-import { getCurrentUser } from '@/utils/supabase';
 
 export default function AchievementsScreen() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [achievementProgress, setAchievementProgress] = useState<{
-    [key in AchievementType]?: {
-      current: number;
-      next: Achievement | null;
-      progress: number;
-    };
-  }>({});
 
-  useEffect(() => {
-    loadAchievements();
-  }, []);
+  // Mock user stats - in production, load from Supabase
+  const [userStats] = useState({
+    lessons_completed: 3,
+    pool_sessions_completed: 1,
+    dryland_completed: 0,
+    streak_days: 5,
+    journals_created: 2,
+    video_journals: 0,
+    community_helpful: 0,
+    reactions_received: 0,
+    excellent_ratings: 0,
+    strokes_learned: 1,
+    safety_checklists: 10,
+    long_session: 0,
+    days_active: 5,
+    level_reached: 2,
+    total_xp: 450,
+    early_session: 0,
+    late_session: 0,
+    weekend_sessions: 0,
+    videos_watched: 3,
+    module_mastered: 0,
+    balanced_training: 0,
+    comeback: 0,
+  });
 
-  const loadAchievements = async () => {
-    try {
-      const user = await getCurrentUser();
-      if (!user) {
-        Alert.alert('Error', 'Please sign in to view achievements');
-        return;
-      }
+  // State
+  const [selectedCategory, setSelectedCategory] = useState<AchievementCategory | 'all'>('all');
+  const [selectedTier, setSelectedTier] = useState<AchievementTier | 'all'>('all');
+  const [showUnlockedOnly, setShowUnlockedOnly] = useState(false);
+  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
-      const types: AchievementType[] = [
-        'streak',
-        'lessons_completed',
-        'module_completed',
-        'skill_mastered',
-        'level_up',
-      ];
+  // Calculate stats
+  const stats = useMemo(() => getAchievementStats(userStats), [userStats]);
 
-      const progress = await Promise.all(
-        types.map(async type => ({
-          type,
-          progress: await getAchievementProgress(user.id, type),
-        }))
-      );
+  // Filter achievements
+  const filteredAchievements = useMemo(() => {
+    let filtered = ACHIEVEMENTS;
 
-      const progressMap = progress.reduce(
-        (acc, { type, progress }) => ({
-          ...acc,
-          [type]: progress,
-        }),
-        {}
-      );
+    // Category filter
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter((a) => a.category === selectedCategory);
+    }
 
-      setAchievementProgress(progressMap);
-    } catch (error) {
-      console.error('Error loading achievements:', error);
-      Alert.alert('Error', 'Failed to load achievements');
-    } finally {
-      setIsLoading(false);
+    // Tier filter
+    if (selectedTier !== 'all') {
+      filtered = filtered.filter((a) => a.tier === selectedTier);
+    }
+
+    // Unlocked filter
+    if (showUnlockedOnly) {
+      filtered = filtered.filter((a) => isAchievementUnlocked(a, userStats));
+    }
+
+    // Hide secret achievements if locked
+    filtered = filtered.filter(
+      (a) => !a.isSecret || isAchievementUnlocked(a, userStats)
+    );
+
+    return filtered;
+  }, [selectedCategory, selectedTier, showUnlockedOnly, userStats]);
+
+  // Group achievements by category for SectionList
+  const sections = useMemo(() => {
+    const categories: AchievementCategory[] = [
+      'learning',
+      'practice',
+      'streak',
+      'social',
+      'mastery',
+      'milestone',
+    ];
+
+    return categories
+      .map((category) => {
+        const achievements = filteredAchievements.filter(
+          (a) => a.category === category
+        );
+        if (achievements.length === 0) return null;
+
+        return {
+          title: getCategoryName(category),
+          icon: getCategoryIcon(category),
+          category,
+          data: achievements,
+        };
+      })
+      .filter(Boolean) as Array<{
+      title: string;
+      icon: string;
+      category: AchievementCategory;
+      data: Achievement[];
+    }>;
+  }, [filteredAchievements]);
+
+  const handleAchievementPress = (achievement: Achievement) => {
+    const unlocked = isAchievementUnlocked(achievement, userStats);
+    if (unlocked) {
+      setSelectedAchievement(achievement);
+      setShowUnlockModal(true);
     }
   };
 
-  const getAchievementTypeLabel = (type: AchievementType): string => {
-    switch (type) {
-      case 'streak':
-        return 'Practice Streaks';
-      case 'lessons_completed':
-        return 'Lesson Progress';
-      case 'module_completed':
-        return 'Module Mastery';
-      case 'skill_mastered':
-        return 'Skill Mastery';
-      case 'level_up':
-        return 'Level Progression';
-      default:
-        return type.split('_').map(capitalize).join(' ');
-    }
-  };
+  const categories: Array<{ value: AchievementCategory | 'all'; label: string }> = [
+    { value: 'all', label: 'All' },
+    { value: 'learning', label: 'Learning' },
+    { value: 'practice', label: 'Practice' },
+    { value: 'streak', label: 'Streaks' },
+    { value: 'social', label: 'Social' },
+    { value: 'mastery', label: 'Mastery' },
+    { value: 'milestone', label: 'Milestones' },
+  ];
 
-  const capitalize = (str: string): string =>
-    str.charAt(0).toUpperCase() + str.slice(1);
+  const tiers: Array<{ value: AchievementTier | 'all'; label: string }> = [
+    { value: 'all', label: 'All Tiers' },
+    { value: 'bronze', label: 'Bronze' },
+    { value: 'silver', label: 'Silver' },
+    { value: 'gold', label: 'Gold' },
+    { value: 'platinum', label: 'Platinum' },
+  ];
 
   return (
-    <LinearGradient
-      colors={[Colors.primary.gradient1, Colors.primary.gradient2]}
-      style={styles.container}
-    >
-      <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <LinearGradient
+        colors={[Colors.primary.gradient1, Colors.primary.gradient2]}
+        style={styles.gradient}
+      >
+        {/* Header */}
         <View style={styles.header}>
-          <Pressable onPress={() => router.back()} style={styles.backButton}>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
             <ArrowLeft size={24} color={Colors.text.primary} />
           </Pressable>
-          <Text style={styles.title}>Achievements</Text>
-          <View style={{ width: 40 }} />
+          <Text style={styles.headerTitle}>Achievements</Text>
+          <View style={styles.placeholder} />
         </View>
 
-        {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={Colors.accent.black} />
-            <Text style={styles.loadingText}>Loading achievements...</Text>
+        {/* Stats Overview */}
+        <View style={styles.statsContainer}>
+          <View style={styles.statsCard}>
+            <Trophy size={24} color={Colors.accent.warning} strokeWidth={2.5} />
+            <View style={styles.statsContent}>
+              <Text style={styles.statsNumber}>
+                {stats.unlocked} / {stats.total}
+              </Text>
+              <Text style={styles.statsLabel}>Unlocked</Text>
+            </View>
           </View>
-        ) : (
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.summaryCard}>
-              <Trophy size={32} color={Colors.accent.black} />
-              <View style={styles.summaryInfo}>
-                <Text style={styles.summaryTitle}>Achievement Hunter</Text>
-                <Text style={styles.summaryText}>
-                  {Object.values(achievementProgress).reduce(
-                    (sum, progress) => sum + (progress?.current || 0),
-                    0
-                  )}{' '}
-                  achievements unlocked
-                </Text>
+
+          <View style={styles.statsCard}>
+            <View style={styles.tierStats}>
+              <View style={styles.tierRow}>
+                <Text style={styles.tierEmoji}>🥉</Text>
+                <Text style={styles.tierCount}>{stats.byTier.bronze}</Text>
+              </View>
+              <View style={styles.tierRow}>
+                <Text style={styles.tierEmoji}>🥈</Text>
+                <Text style={styles.tierCount}>{stats.byTier.silver}</Text>
+              </View>
+              <View style={styles.tierRow}>
+                <Text style={styles.tierEmoji}>🥇</Text>
+                <Text style={styles.tierCount}>{stats.byTier.gold}</Text>
+              </View>
+              <View style={styles.tierRow}>
+                <Text style={styles.tierEmoji}>💎</Text>
+                <Text style={styles.tierCount}>{stats.byTier.platinum}</Text>
               </View>
             </View>
+          </View>
+        </View>
 
-            {(Object.entries(achievementProgress) as [AchievementType, any][]).map(
-              ([type, progress]) => (
-                <View key={type} style={styles.achievementSection}>
-                  <Text style={styles.sectionTitle}>
-                    {getAchievementTypeLabel(type)}
-                  </Text>
-
-                  <View style={styles.achievementCard}>
-                    <View style={styles.cardHeader}>
-                      <Award size={24} color={Colors.accent.black} />
-                      <View style={styles.headerInfo}>
-                        <Text style={styles.achievementCount}>
-                          {progress.current} unlocked
-                        </Text>
-                        {progress.next && (
-                          <Text style={styles.nextAchievement}>
-                            Next: {progress.next.title}
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-
-                    {progress.next && (
-                      <View style={styles.progressContainer}>
-                        <View style={styles.progressInfo}>
-                          <Text style={styles.progressLabel}>Progress</Text>
-                          <Text style={styles.progressPercent}>
-                            {progress.progress}%
-                          </Text>
-                        </View>
-                        <View style={styles.progressBar}>
-                          <View
-                            style={[
-                              styles.progressFill,
-                              { width: `${progress.progress}%` },
-                            ]}
-                          />
-                        </View>
-                        <Text style={styles.progressDescription}>
-                          {progress.next.description}
-                        </Text>
-                        <View style={styles.rewardBadge}>
-                          <Text style={styles.rewardText}>
-                            +{progress.next.xpReward} XP
-                          </Text>
-                        </View>
-                      </View>
-                    )}
-                  </View>
-                </View>
-              )
-            )}
+        {/* Filters */}
+        <View style={styles.filtersContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {/* Category filter */}
+            {categories.map((cat) => (
+              <Pressable
+                key={cat.value}
+                style={[
+                  styles.filterButton,
+                  selectedCategory === cat.value && styles.filterButtonActive,
+                ]}
+                onPress={() => setSelectedCategory(cat.value)}
+              >
+                <Text
+                  style={[
+                    styles.filterButtonText,
+                    selectedCategory === cat.value && styles.filterButtonTextActive,
+                  ]}
+                >
+                  {cat.label}
+                </Text>
+              </Pressable>
+            ))}
           </ScrollView>
-        )}
-      </SafeAreaView>
-    </LinearGradient>
+
+          {/* Tier and unlocked filters */}
+          <View style={styles.secondaryFilters}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {tiers.map((tier) => (
+                <Pressable
+                  key={tier.value}
+                  style={[
+                    styles.tierFilterButton,
+                    selectedTier === tier.value && styles.tierFilterButtonActive,
+                  ]}
+                  onPress={() => setSelectedTier(tier.value)}
+                >
+                  <Text
+                    style={[
+                      styles.tierFilterText,
+                      selectedTier === tier.value && styles.tierFilterTextActive,
+                    ]}
+                  >
+                    {tier.label}
+                  </Text>
+                </Pressable>
+              ))}
+
+              <Pressable
+                style={[
+                  styles.tierFilterButton,
+                  showUnlockedOnly && styles.tierFilterButtonActive,
+                ]}
+                onPress={() => setShowUnlockedOnly(!showUnlockedOnly)}
+              >
+                <Lock
+                  size={14}
+                  color={showUnlockedOnly ? Colors.text.white : Colors.text.secondary}
+                  strokeWidth={2.5}
+                />
+                <Text
+                  style={[
+                    styles.tierFilterText,
+                    showUnlockedOnly && styles.tierFilterTextActive,
+                  ]}
+                >
+                  Unlocked Only
+                </Text>
+              </Pressable>
+            </ScrollView>
+          </View>
+        </View>
+
+        {/* Achievements List */}
+        <SectionList
+          sections={sections}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            const unlocked = isAchievementUnlocked(item, userStats);
+            const progress = calculateAchievementProgress(item, userStats);
+
+            return (
+              <View style={styles.achievementItem}>
+                <AchievementBadge
+                  achievement={item}
+                  isUnlocked={unlocked}
+                  progress={progress}
+                  variant="default"
+                  onPress={() => handleAchievementPress(item)}
+                />
+              </View>
+            );
+          }}
+          renderSectionHeader={({ section }) => (
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionIcon}>{section.icon}</Text>
+              <Text style={styles.sectionTitle}>{section.title}</Text>
+              <Text style={styles.sectionCount}>
+                {section.data.filter((a) => isAchievementUnlocked(a, userStats)).length} /{' '}
+                {section.data.length}
+              </Text>
+            </View>
+          )}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled={false}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Trophy size={48} color={Colors.text.muted} strokeWidth={1.5} />
+              <Text style={styles.emptyText}>No achievements match your filters</Text>
+              <Text style={styles.emptySubtext}>
+                Try adjusting your filters to see more achievements
+              </Text>
+            </View>
+          }
+        />
+
+        {/* Achievement Unlock Modal */}
+        <AchievementUnlockModal
+          visible={showUnlockModal}
+          achievement={selectedAchievement}
+          onClose={() => {
+            setShowUnlockModal(false);
+            setSelectedAchievement(null);
+          }}
+        />
+      </LinearGradient>
+    </SafeAreaView>
   );
 }
 
@@ -197,7 +336,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  safeArea: {
+  gradient: {
     flex: 1,
   },
   header: {
@@ -215,138 +354,157 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
+  headerTitle: {
     fontSize: 20,
     fontWeight: '700',
     color: Colors.text.primary,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  placeholder: {
+    width: 40,
   },
-  loadingText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: Colors.text.secondary,
-    marginTop: 16,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-  },
-  summaryCard: {
+  statsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+    gap: 12,
+    marginBottom: 20,
+  },
+  statsCard: {
+    flex: 1,
     backgroundColor: Colors.background.white,
-    borderRadius: 20,
-    padding: 24,
-    marginBottom: 24,
-    shadowColor: Colors.ui.shadow,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  summaryInfo: {
-    marginLeft: 16,
-  },
-  summaryTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: Colors.text.primary,
-    marginBottom: 4,
-  },
-  summaryText: {
-    fontSize: 16,
-    color: Colors.text.secondary,
-  },
-  achievementSection: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.text.primary,
-    marginBottom: 12,
-  },
-  achievementCard: {
-    backgroundColor: Colors.background.white,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: Colors.ui.shadow,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  headerInfo: {
-    marginLeft: 12,
-  },
-  achievementCount: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.text.primary,
-  },
-  nextAchievement: {
-    fontSize: 14,
-    color: Colors.text.secondary,
-  },
-  progressContainer: {
-    backgroundColor: Colors.primary.lightBlue,
     borderRadius: 16,
     padding: 16,
-  },
-  progressInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    gap: 12,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  progressLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.accent.black,
+  statsContent: {
+    flex: 1,
   },
-  progressPercent: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: Colors.accent.black,
+  statsNumber: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: Colors.text.primary,
   },
-  progressBar: {
-    height: 8,
-    backgroundColor: Colors.background.white,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.accent.black,
-    borderRadius: 4,
-  },
-  progressDescription: {
-    fontSize: 14,
-    color: Colors.text.secondary,
-    marginBottom: 12,
-  },
-  rewardBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: Colors.accent.black,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  rewardText: {
+  statsLabel: {
     fontSize: 12,
     fontWeight: '600',
+    color: Colors.text.secondary,
+  },
+  tierStats: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  tierRow: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  tierEmoji: {
+    fontSize: 20,
+  },
+  tierCount: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: Colors.text.primary,
+  },
+  filtersContainer: {
+    gap: 12,
+    marginBottom: 16,
+  },
+  filterButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: Colors.background.white,
+    marginLeft: 8,
+  },
+  filterButtonActive: {
+    backgroundColor: Colors.accent.black,
+  },
+  filterButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.text.primary,
+  },
+  filterButtonTextActive: {
     color: Colors.text.white,
+  },
+  secondaryFilters: {
+    paddingLeft: 12,
+  },
+  tierFilterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: Colors.background.white,
+    marginRight: 8,
+  },
+  tierFilterButtonActive: {
+    backgroundColor: Colors.accent.black,
+  },
+  tierFilterText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.text.secondary,
+  },
+  tierFilterTextActive: {
+    color: Colors.text.white,
+  },
+  listContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 32,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: Colors.background.white,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    marginTop: 8,
+  },
+  sectionIcon: {
+    fontSize: 20,
+  },
+  sectionTitle: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.text.primary,
+  },
+  sectionCount: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.text.secondary,
+  },
+  achievementItem: {
+    marginBottom: 12,
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text.primary,
+    marginTop: 16,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: Colors.text.secondary,
+    marginTop: 8,
+    textAlign: 'center',
   },
 });
