@@ -88,6 +88,22 @@ export default function AnalyticsScreen() {
             </View>
           </View>
 
+          {/* Leaderboard Button */}
+          <TouchableOpacity
+            style={styles.leaderboardButton}
+            onPress={() => router.push('/leaderboard')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.leaderboardIcon}>
+              <Trophy size={24} color={Colors.primary.turquoise} strokeWidth={2} />
+            </View>
+            <View style={styles.leaderboardContent}>
+              <Text style={styles.leaderboardTitle}>View Leaderboard</Text>
+              <Text style={styles.leaderboardSubtitle}>See how you rank against others</Text>
+            </View>
+            <ChevronRight size={20} color={Colors.text.muted} />
+          </TouchableOpacity>
+
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Calendar size={20} color={Colors.accent.black} strokeWidth={2} />
@@ -349,6 +365,43 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600' as const,
     color: Colors.text.white,
+  },
+  leaderboardButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.background.white,
+    borderRadius: 16,
+    padding: 16,
+    marginHorizontal: 24,
+    marginBottom: 32,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  leaderboardIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.primary.lightBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  leaderboardContent: {
+    flex: 1,
+  },
+  leaderboardTitle: {
+    fontSize: 16,
+    fontWeight: '600' as const,
+    color: Colors.text.primary,
+    marginBottom: 2,
+  },
+  leaderboardSubtitle: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+    color: Colors.text.secondary,
   },
   section: {
     paddingHorizontal: 24,

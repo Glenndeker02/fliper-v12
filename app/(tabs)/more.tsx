@@ -563,4 +563,42 @@ const styles = StyleSheet.create({
     color: Colors.text.secondary,
     lineHeight: 20,
   },
+  subscriptionCard: {
+    backgroundColor: Colors.primary.turquoise,
+    borderRadius: 20,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  subscriptionCardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+  },
+  subscriptionIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscriptionTextContainer: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  subscriptionTitle: {
+    fontSize: 18,
+    fontWeight: '700' as const,
+    color: Colors.text.white,
+    marginBottom: 4,
+  },
+  subscriptionDescription: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+    color: 'rgba(255, 255, 255, 0.9)',
+    lineHeight: 20,
+  },
 });

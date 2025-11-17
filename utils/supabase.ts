@@ -19,6 +19,7 @@ export type LessonFeedback = Database['public']['Tables']['lesson_feedback']['Ro
 export type ScheduledLesson = Database['public']['Tables']['scheduled_lessons']['Row'];
 export type SafetyCheckin = Database['public']['Tables']['safety_checkins']['Row'];
 export type Achievement = Database['public']['Tables']['achievements']['Row'];
+export type Leaderboard = Database['public']['Tables']['leaderboard']['Row'];
 export type SkillProgress = Database['public']['Tables']['skill_progress']['Row'];
 export type LearningProfile = Database['public']['Tables']['learning_profiles']['Row'];
 export type AdaptiveProgress = Database['public']['Tables']['adaptive_progress']['Row'];
@@ -410,13 +411,110 @@ export const updateSkillProgress = async (userId: string, skillName: string, upd
 };
 
 // Leaderboard Functions
-export const getLeaderboard = async (limit: number = 10) => {
+export type LeaderboardPeriod = 'weekly' | 'monthly' | 'all-time';
+
+export const getLeaderboard = async (
+  period: LeaderboardPeriod = 'all-time',
+  limit: number = 100
+) => {
+  let orderColumn = 'total_xp';
+  let rankColumn = 'rank_all_time';
+
+  if (period === 'weekly') {
+    orderColumn = 'weekly_xp';
+    rankColumn = 'rank_weekly';
+  } else if (period === 'monthly') {
+    orderColumn = 'monthly_xp';
+    rankColumn = 'rank_monthly';
+  }
+
   const { data, error } = await supabase
     .from('leaderboard')
-    .select('*, user_profiles(name)')
-    .order('total_xp', { ascending: false })
+    .select('*, user_profiles(name, email)')
+    .order(orderColumn, { ascending: false })
     .limit(limit);
-  
+
+  if (error) throw error;
+
+  // Add rank numbers to the data
+  return data?.map((entry, index) => ({
+    ...entry,
+    rank: index + 1,
+  })) || [];
+};
+
+export const getUserRank = async (
+  userId: string,
+  period: LeaderboardPeriod = 'all-time'
+) => {
+  let orderColumn = 'total_xp';
+
+  if (period === 'weekly') {
+    orderColumn = 'weekly_xp';
+  } else if (period === 'monthly') {
+    orderColumn = 'monthly_xp';
+  }
+
+  // Get all users ordered by XP to calculate rank
+  const { data: allUsers, error } = await supabase
+    .from('leaderboard')
+    .select('user_id, ' + orderColumn)
+    .order(orderColumn, { ascending: false });
+
+  if (error) throw error;
+
+  // Find user's position
+  const userIndex = allUsers?.findIndex(u => u.user_id === userId) ?? -1;
+  return userIndex >= 0 ? userIndex + 1 : null;
+};
+
+export const getLeaderboardEntry = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('leaderboard')
+    .select('*, user_profiles(name, email)')
+    .eq('user_id', userId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') throw error;
+  return data;
+};
+
+export const updateLeaderboardEntry = async (
+  userId: string,
+  updates: {
+    weekly_xp?: number;
+    monthly_xp?: number;
+    total_xp?: number;
+    streak?: number;
+  }
+) => {
+  const { data, error } = await supabase
+    .from('leaderboard')
+    .upsert({
+      user_id: userId,
+      ...updates,
+      updated_at: new Date().toISOString(),
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const createLeaderboardEntry = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('leaderboard')
+    .insert({
+      user_id: userId,
+      weekly_xp: 0,
+      monthly_xp: 0,
+      total_xp: 0,
+      streak: 0,
+    })
+    .select()
+    .single();
+
   if (error) throw error;
   return data;
 };
@@ -600,6 +698,10 @@ export default {
   getSkillProgress,
   updateSkillProgress,
   getLeaderboard,
+  getUserRank,
+  getLeaderboardEntry,
+  updateLeaderboardEntry,
+  createLeaderboardEntry,
   signUp,
   signIn,
   signOut,
