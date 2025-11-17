@@ -1,5 +1,82 @@
 # Change Log
 
+## 2025-11-17
+
+### Advanced Video Player Implementation
+- Created comprehensive AdvancedVideoPlayer component (`/components/AdvancedVideoPlayer.tsx`)
+  - **Playback Controls:**
+    - Play/Pause with center overlay button
+    - Skip backward/forward 10 seconds
+    - Volume control with slider
+    - Mute/unmute toggle
+    - Fullscreen mode support
+
+  - **Advanced Features:**
+    - Playback speed control (0.5x, 0.75x, 1x, 1.25x, 1.5x)
+    - Quality selection (Auto, 1080p, 720p, 480p)
+    - Captions toggle
+    - Multiple camera angles support
+    - Progress tracking with callback
+    - Auto-hide controls (3-second timer)
+    - Buffering indicator
+
+  - **Chapter Markers:**
+    - Timeline with visual chapter markers
+    - Color-coded by type (setup, execution, mistakes, tips)
+    - Clickable markers to jump to chapters
+    - Current chapter display in top bar
+
+  - **Camera Angle Selector:**
+    - Horizontal scrollable angle picker
+    - Seamless switching between angles
+    - Maintains playback position on angle change
+    - Visual active state indicator
+
+  - **Settings Modal:**
+    - Tabbed interface (Speed, Quality, Captions)
+    - Clean modal design with bottom sheet
+    - Visual indicators for selected options
+
+  - **UI/UX Enhancements:**
+    - Responsive touch controls
+    - Accessible control sizes (44pt minimum)
+    - Progress slider with chapter markers
+    - Time display (current / total)
+    - Smooth animations and transitions
+    - Dark overlay for better visibility
+
+- Updated lesson detail screen (`/app/lessons/[id].tsx`)
+  - Integrated AdvancedVideoPlayer component
+  - Removed basic expo-av Video component
+  - Added chapter data structure
+  - Added camera angle data structure
+  - Implemented progress tracking callback
+  - Implemented completion callback
+  - Maintained existing lesson content (steps, drills, mistakes)
+
+- Installed Dependencies:
+  - Added `@react-native-community/slider` for volume and progress controls
+
+### Features Implemented:
+- ✅ Professional video player with all controls from PRD
+- ✅ Playback speed adjustment (0.5x to 1.5x)
+- ✅ Quality selection (Auto, 1080p, 720p, 480p)
+- ✅ Caption toggle support
+- ✅ Multiple camera angles (Above Water, Underwater, Side View, Split View)
+- ✅ Chapter markers with timeline navigation
+- ✅ Progress tracking and resume functionality
+- ✅ Fullscreen mode
+- ✅ Auto-hiding controls
+- ✅ Volume control with mute toggle
+- ✅ Skip forward/backward 10 seconds
+- ✅ Buffering states
+
+### Next Priority Features:
+- Journal system UI (text, voice, video entries)
+- Gamification system (XP, points, levels)
+- Achievements UI
+- Community feed
+
 ## 2025-10-30
 
 ### Authentication System Implementation

@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { ArrowLeft, Play, CheckCircle2, BookOpen, Target, ThumbsUp, ThumbsDown, Minus, Lightbulb } from 'lucide-react-native';
-import React, { useRef, useState } from 'react';
+import { ArrowLeft, CheckCircle2, BookOpen, Target, ThumbsUp, ThumbsDown, Minus, Lightbulb } from 'lucide-react-native';
+import React, { useState } from 'react';
 import {
   Dimensions,
   Pressable,
@@ -9,19 +9,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '@/constants/colors';
 import { MODULES } from '@/constants/mockData';
 import { suggestFoundationalLessons, suggestAdvancedLessons } from '@/utils/adaptiveLearning';
+import AdvancedVideoPlayer from '@/components/AdvancedVideoPlayer';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function LessonDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const videoRef = useRef<Video>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
   const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<Array<{id: string, title: string, reason: string}>>([]);
 
@@ -35,13 +34,32 @@ export default function LessonDetailScreen() {
     );
   }
 
-  const handlePlayPress = () => {
-    if (isPlaying) {
-      videoRef.current?.pauseAsync();
-    } else {
-      videoRef.current?.playAsync();
-    }
-    setIsPlaying(!isPlaying);
+  // Define video chapters based on lesson structure
+  const videoChapters = [
+    { time: 0, title: 'Introduction', type: 'setup' as const },
+    { time: 60, title: 'Setup & Positioning', type: 'setup' as const },
+    { time: 180, title: 'Step-by-Step Execution', type: 'execution' as const },
+    { time: 420, title: 'Common Mistakes', type: 'mistakes' as const },
+    { time: 600, title: 'Pro Tips', type: 'tips' as const },
+  ];
+
+  // Define camera angles (example URLs - in production these would be real multi-angle videos)
+  const cameraAngles = [
+    { id: 'above', label: 'Above Water', videoUrl: lesson.videoUrl },
+    { id: 'underwater', label: 'Underwater', videoUrl: lesson.videoUrl }, // Same for demo
+    { id: 'side', label: 'Side View', videoUrl: lesson.videoUrl }, // Same for demo
+    { id: 'split', label: 'Split View', videoUrl: lesson.videoUrl }, // Same for demo
+  ];
+
+  const handleVideoProgress = (progress: number) => {
+    setVideoProgress(progress);
+    // Save progress to database in production
+    console.log('Video progress:', progress);
+  };
+
+  const handleVideoComplete = () => {
+    console.log('Video completed');
+    // Trigger completion actions, award XP, etc.
   };
 
   const handleFeedback = (feedback: 'too-easy' | 'just-right' | 'too-hard') => {
@@ -86,31 +104,22 @@ export default function LessonDetailScreen() {
           colors={[Colors.primary.gradient1, Colors.primary.gradient2]}
           style={styles.gradient}
         >
-          <View style={styles.videoContainer}>
-            <Video
-              ref={videoRef}
-              source={{ uri: lesson.videoUrl }}
-              style={styles.video}
-              resizeMode={ResizeMode.COVER}
-              shouldPlay={false}
-              isLooping={false}
-              onPlaybackStatusUpdate={(status) => {
-                if (status.isLoaded) {
-                  setIsPlaying(status.isPlaying);
-                }
-              }}
-            />
-            <Pressable style={styles.backButton} onPress={() => router.back()}>
-              <ArrowLeft size={24} color={Colors.text.white} />
-            </Pressable>
-            {!isPlaying && (
-              <Pressable style={styles.playOverlay} onPress={handlePlayPress}>
-                <View style={styles.playButton}>
-                  <Play size={32} color={Colors.text.white} fill={Colors.text.white} />
-                </View>
-              </Pressable>
-            )}
-          </View>
+          {/* Back Button */}
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <ArrowLeft size={24} color={Colors.text.white} />
+          </Pressable>
+
+          {/* Advanced Video Player */}
+          <AdvancedVideoPlayer
+            videoUrl={lesson.videoUrl}
+            thumbnailUrl={lesson.thumbnailUrl}
+            duration={900000} // 15 minutes in milliseconds (example)
+            chapters={videoChapters}
+            cameraAngles={cameraAngles}
+            onProgressUpdate={handleVideoProgress}
+            onComplete={handleVideoComplete}
+            resumePosition={0} // Load from saved progress in production
+          />
 
           <ScrollView
             style={styles.scrollView}
@@ -395,16 +404,6 @@ const styles = StyleSheet.create({
   gradient: {
     flex: 1,
   },
-  videoContainer: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_WIDTH * 0.5625,
-    backgroundColor: Colors.accent.black,
-    position: 'relative',
-  },
-  video: {
-    width: '100%',
-    height: '100%',
-  },
   backButton: {
     position: 'absolute',
     top: 48,
@@ -412,33 +411,10 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
-  },
-  playOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
-  playButton: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: Colors.accent.black,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: Colors.accent.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 8,
+    zIndex: 100,
   },
   scrollView: {
     flex: 1,
