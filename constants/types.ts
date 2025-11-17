@@ -203,6 +203,41 @@ export interface ExerciseStep {
   reps?: string;
 }
 
+// Dryland Routine Types
+export interface DrylandRoutineExercise {
+  exerciseId: string;
+  duration: number; // in seconds
+  reps?: number;
+  sets?: number;
+  restAfter: number; // rest time in seconds after this exercise
+}
+
+export interface DrylandRoutine {
+  id: string;
+  title: string;
+  description: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  duration: number; // total duration in minutes
+  focusAreas: string[];
+  equipment: string[];
+  exercises: DrylandRoutineExercise[];
+  thumbnailUrl?: string;
+  estimatedCalories?: number;
+  targetMuscles: string[];
+}
+
+export interface DrylandRoutineProgress {
+  routineId: string;
+  userId: string;
+  startedAt: string;
+  completedAt?: string;
+  status: 'not-started' | 'in-progress' | 'paused' | 'completed' | 'abandoned';
+  currentExerciseIndex: number;
+  completedExercises: string[];
+  totalDuration: number; // actual time spent in seconds
+  notes?: string;
+}
+
 // Journal Types
 export interface JournalEntry {
   id: string;

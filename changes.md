@@ -2,6 +2,111 @@
 
 ## 2025-11-17
 
+### Dryland Routine Builder Implementation (10 Pre-built Routines)
+- Created dryland routine types (`/constants/types.ts`)
+  - **DrylandRoutineExercise**: Exercise reference with duration, reps, sets, rest
+  - **DrylandRoutine**: Routine with metadata, exercises, difficulty
+  - **DrylandRoutineProgress**: Progress tracking interface
+
+- Created 10 pre-built dryland routines (`/constants/mockData.ts`)
+  - **Beginner Total Body Warm-up** (15 min, 5 exercises)
+  - **Core Strength Foundation** (20 min, 5 exercises)
+  - **Shoulder Mobility for Freestyle** (12 min, 4 exercises)
+  - **Kick Power Development** (18 min, 5 exercises)
+  - **10-Minute Pre-Swim Activation** (10 min, 4 exercises)
+  - **Upper Body Endurance Builder** (25 min, 6 exercises)
+  - **Morning Swimmer Routine** (15 min, 5 exercises)
+  - **Freestyle Technique Dryland** (20 min, 6 exercises)
+  - **Post-Swim Cooldown & Stretch** (12 min, 4 exercises)
+  - **Advanced Swim Conditioning** (30 min, 7 exercises)
+
+- Created dryland routines list screen (`/app/routines/index.tsx`)
+  - Browse all 10 pre-built routines
+  - Filter by difficulty (All, Beginner, Intermediate, Advanced)
+  - Routine cards with thumbnails and metadata
+  - Duration, calories, exercise count display
+  - Focus areas tags (up to 3 + overflow)
+  - Target muscles display
+  - Tap to navigate to routine player
+
+- Created dryland routine player screen (`/app/routines/[id].tsx`)
+  - **Ready Modal:**
+    - Equipment checklist
+    - Routine overview (exercises, duration)
+    - Start/cancel options
+
+  - **Routine Timer:**
+    - Real-time exercise countdown
+    - Auto-advance to next exercise
+    - Rest periods between exercises
+    - Total routine time tracking
+    - Pause/resume functionality
+
+  - **Exercise Display:**
+    - Current exercise title and category
+    - Large timer display (MM:SS format)
+    - Progress bar with gradient fill
+    - Reps/sets display badges
+    - Step-by-step instructions
+    - Breathing cues
+
+  - **Rest Periods:**
+    - Rest time countdown
+    - Visual indicator (💧 Rest Time)
+    - Auto-advance after rest
+    - Different progress bar color
+
+  - **Routine Progress Tracking:**
+    - Visual progress list of all exercises
+    - Completed exercises with checkmark
+    - Current exercise highlighted
+    - Exercise duration and reps display
+    - Opacity differentiation for past/future
+
+  - **Controls:**
+    - Play button to start
+    - Pause/resume during routine
+    - Skip to next exercise
+    - Exit confirmation dialog
+    - Completion celebration
+
+### Features Implemented:
+- ✅ 10 pre-built dryland routines (MVP requirement)
+- ✅ Routines list with filtering by difficulty
+- ✅ Routine player with timer and exercise tracking
+- ✅ Auto-advance through exercises
+- ✅ Rest periods between exercises
+- ✅ Equipment checklist before starting
+- ✅ Step-by-step exercise instructions
+- ✅ Breathing cues for each step
+- ✅ Reps/sets display
+- ✅ Pause/resume/skip controls
+- ✅ Routine progress visualization
+- ✅ Completion flow with summary
+- ✅ Exit confirmation dialog
+- ✅ Responsive design for all screens
+
+### Technical Implementation:
+- TypeScript with strict typing
+- Expo Router file-based routing (dynamic [id] route)
+- Timer with useRef and setInterval
+- Modal for ready state
+- Alert dialogs for confirmations
+- Exercise data lookup from DRYLAND_EXERCISES
+- Gradient backgrounds and shadows
+- Proper cleanup on unmount
+- Production-ready state management
+
+### Next Priority Features:
+- Integrate XP rewards for routine completion
+- Connect to Supabase for routine progress persistence
+- Add routine completion summary screen
+- Add custom routine builder (Phase 2)
+- Add routine history and analytics
+- Add favorite routines feature
+
+---
+
 ### Journal System Implementation (Text, Voice, Video with AI Analysis)
 - Created comprehensive journal list screen (`/app/journal/index.tsx`)
   - **Journal Discovery:**
