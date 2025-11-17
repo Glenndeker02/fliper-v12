@@ -1,16 +1,17 @@
 import { useRouter } from 'expo-router';
-import { 
-  ArrowRight, 
-  Award, 
-  BookOpen, 
-  Dumbbell, 
-  User, 
+import {
+  ArrowRight,
+  Award,
+  BookOpen,
+  Dumbbell,
+  User,
   Flame,
   TrendingUp,
   Calendar,
   Target,
   Trophy,
-  Shield
+  Shield,
+  Search
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -115,6 +116,12 @@ export default function HomeScreen() {
             </View>
             <View style={styles.headerRight}>
               <XPDisplay totalXP={totalXP} variant="mini" onPress={() => router.push('/progress')} />
+              <Pressable
+                style={styles.searchButton}
+                onPress={() => router.push('/search')}
+              >
+                <Search size={22} color={Colors.text.primary} />
+              </Pressable>
               <Pressable style={styles.profileButton}>
                 <User size={24} color={Colors.text.primary} />
               </Pressable>
@@ -514,6 +521,20 @@ const styles = StyleSheet.create({
     fontWeight: '400' as const,
     color: Colors.text.secondary,
     marginTop: 4,
+  },
+  searchButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.background.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    marginRight: 12,
   },
   profileButton: {
     width: 48,
