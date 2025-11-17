@@ -1,4 +1,4 @@
-import { Module, Lesson, Exercise } from './types';
+import { Module, Lesson, Exercise, PoolSession } from './types';
 
 export const MODULES: Module[] = [
   {
@@ -294,3 +294,679 @@ export const ASSESSMENT_QUESTIONS = {
     ],
   },
 };
+
+// Pool Practice Sessions (MVP Phase 1: 5 pre-built sessions)
+export const POOL_SESSIONS: PoolSession[] = [
+  {
+    id: 'first-time-in-pool',
+    title: 'First Time in Pool',
+    description: 'Water confidence focus with gentle encouragement. Perfect for your first pool visit.',
+    level: 'beginner',
+    duration: 20,
+    focusAreas: ['Water Confidence', 'Breathing', 'Floating', 'Basic Movement'],
+    equipment: ['Swim cap', 'Goggles', 'Kickboard (optional)'],
+    safetyChecklist: [
+      'Pool is supervised or swimming with a buddy',
+      'Know where emergency equipment is located',
+      'Checked water depth - staying in shallow area',
+      'Have towel and water bottle ready',
+    ],
+    intervals: [
+      {
+        id: 'warmup-1',
+        type: 'warmup',
+        title: 'Pool Entry & Orientation',
+        description: 'Get comfortable in the pool environment',
+        duration: 180, // 3 minutes
+        instructions: [
+          'Enter pool slowly using steps or ladder',
+          'Stand in waist-deep water',
+          'Get face wet and practice putting face in water',
+          'Walk around the shallow end',
+        ],
+        audioCoaching: [
+          'Welcome! Take your time entering the pool. There\'s no rush.',
+          'Great job! Now let\'s walk around and get comfortable.',
+          'You\'re doing amazing. Take deep breaths and relax.',
+        ],
+      },
+      {
+        id: 'drill-1',
+        type: 'drill',
+        title: 'Breathing Practice',
+        description: 'Learn to exhale underwater and inhale above',
+        duration: 240, // 4 minutes
+        instructions: [
+          'Stand in chest-deep water',
+          'Take a deep breath above water',
+          'Put face in water and exhale slowly through nose',
+          'Lift head and inhale quickly',
+          'Repeat 10 times',
+        ],
+        audioCoaching: [
+          'Let\'s practice breathing. Take a deep breath in.',
+          'Now put your face in and blow bubbles slowly.',
+          'Great! Lift your head and breathe in.',
+          'You\'re getting it! Keep going at your own pace.',
+        ],
+      },
+      {
+        id: 'rest-1',
+        type: 'rest',
+        title: 'Rest & Hydration',
+        description: 'Take a break and drink water',
+        duration: 60, // 1 minute
+        instructions: ['Hold onto the wall', 'Catch your breath', 'Drink some water'],
+        audioCoaching: [
+          'Great work! Take a rest.',
+          'Drink some water and relax.',
+          'You\'re doing fantastic!',
+        ],
+      },
+      {
+        id: 'drill-2',
+        type: 'drill',
+        title: 'Front Float Practice',
+        description: 'Learn to relax and float on your front',
+        duration: 300, // 5 minutes
+        instructions: [
+          'Hold the wall with both hands',
+          'Take a deep breath',
+          'Lean forward and let your legs float up',
+          'Hold for 5 seconds',
+          'Stand up slowly',
+          'Repeat 5 times',
+        ],
+        audioCoaching: [
+          'Now let\'s try floating on your front.',
+          'Hold the wall and lean forward gently.',
+          'Feel your body naturally wanting to float.',
+          'Hold it... and stand up slowly.',
+          'Excellent! Your body knows how to float.',
+        ],
+      },
+      {
+        id: 'rest-2',
+        type: 'rest',
+        title: 'Rest Break',
+        description: 'Recover before next drill',
+        duration: 60, // 1 minute
+        instructions: ['Stand in shallow water', 'Breathe normally', 'Shake out your arms'],
+        audioCoaching: [
+          'Another great effort! Take a break.',
+          'You\'re building confidence with every attempt.',
+        ],
+      },
+      {
+        id: 'drill-3',
+        type: 'drill',
+        title: 'Back Float Practice',
+        description: 'Float on your back with wall support',
+        duration: 300, // 5 minutes
+        instructions: [
+          'Face the wall and hold it behind you',
+          'Gently lean back',
+          'Let your legs float up',
+          'Keep chin up, look at ceiling',
+          'Hold for 5 seconds',
+          'Use wall to stand up',
+        ],
+        audioCoaching: [
+          'Time for back floating - a key safety skill.',
+          'Hold the wall behind you and lean back gently.',
+          'Keep your chin up and look at the ceiling.',
+          'Your body naturally floats when you relax.',
+          'Perfect! This is great progress.',
+        ],
+      },
+      {
+        id: 'practice-1',
+        type: 'practice',
+        title: 'Gentle Movement',
+        description: 'Combine walking and floating',
+        duration: 240, // 4 minutes
+        instructions: [
+          'Walk in waist-deep water (2 minutes)',
+          'Practice front float for 3 seconds, then stand (1 minute)',
+          'Walk backwards slowly (1 minute)',
+        ],
+        audioCoaching: [
+          'Let\'s practice some gentle movement.',
+          'Walk around at your comfortable pace.',
+          'Try a quick front float, then stand.',
+          'You\'re doing wonderfully!',
+        ],
+      },
+      {
+        id: 'cooldown-1',
+        type: 'cooldown',
+        title: 'Cooldown & Celebration',
+        description: 'Gentle movement and reflection',
+        duration: 120, // 2 minutes
+        instructions: [
+          'Walk slowly in shallow water',
+          'Take deep breaths',
+          'Smile and be proud of yourself!',
+        ],
+        audioCoaching: [
+          'You did it! Your first pool session is complete.',
+          'Walk slowly and take deep breaths.',
+          'You should be so proud of yourself today.',
+          'Remember this feeling - you\'re on your way to becoming a swimmer!',
+        ],
+      },
+    ],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800',
+    estimatedCalories: 80,
+    estimatedDistance: 0, // First session, focus on comfort not distance
+  },
+  {
+    id: 'freestyle-fundamentals',
+    title: 'Freestyle Fundamentals',
+    description: 'Freestyle skill drills and technique practice for building proper form',
+    level: 'beginner-intermediate',
+    duration: 30,
+    focusAreas: ['Freestyle Technique', 'Breathing Rhythm', 'Body Position', 'Arm Stroke'],
+    equipment: ['Swim cap', 'Goggles', 'Kickboard'],
+    safetyChecklist: [
+      'Pool is supervised or swimming with a buddy',
+      'Equipment ready and tested',
+      'Warmed up and stretched',
+      'Hydration available pool-side',
+    ],
+    intervals: [
+      {
+        id: 'warmup-freestyle',
+        type: 'warmup',
+        title: 'Easy Warm-up',
+        description: 'Get blood flowing with gentle swimming',
+        duration: 300, // 5 minutes
+        instructions: [
+          'Swim 50m easy freestyle or mix of strokes',
+          'Focus on feeling comfortable, not speed',
+          'Take breaks as needed',
+        ],
+        audioCoaching: [
+          'Welcome! Let\'s warm up with some easy swimming.',
+          'No rush, just get your body moving.',
+          'Take it nice and easy for the first few minutes.',
+        ],
+      },
+      {
+        id: 'drill-freestyle-1',
+        type: 'drill',
+        title: 'Kickboard Flutter Kick',
+        description: 'Build leg strength and kick technique',
+        duration: 360, // 6 minutes
+        instructions: [
+          'Hold kickboard with arms extended',
+          'Face in water, head in line with body',
+          'Flutter kick from hips, not knees',
+          'Kick for 25m, rest 30 seconds, repeat 3x',
+        ],
+        audioCoaching: [
+          'Grab your kickboard. Let\'s work on that kick.',
+          'Keep your legs long and kick from the hips.',
+          'Small, fast kicks work best.',
+          'Rest for 30 seconds. Great job!',
+        ],
+      },
+      {
+        id: 'rest-freestyle-1',
+        type: 'rest',
+        title: 'Active Rest',
+        description: 'Recover and hydrate',
+        duration: 60,
+        instructions: ['Stand or float', 'Drink water', 'Shake out legs'],
+        audioCoaching: ['Nice work! Take a rest.', 'Drink some water.'],
+      },
+      {
+        id: 'drill-freestyle-2',
+        type: 'drill',
+        title: 'Catch-Up Drill',
+        description: 'Perfect your arm stroke timing',
+        duration: 420, // 7 minutes
+        instructions: [
+          'Swim freestyle but wait for one arm to reach forward before pulling with other',
+          'This exaggerates proper timing',
+          'Swim 25m catch-up drill, rest 30s, repeat 4x',
+        ],
+        audioCoaching: [
+          'Time for the catch-up drill.',
+          'One arm waits while the other completes its stroke.',
+          'This helps you feel proper timing.',
+          'Touch hands in front before the next stroke.',
+        ],
+      },
+      {
+        id: 'rest-freestyle-2',
+        type: 'rest',
+        title: 'Rest & Reset',
+        description: 'Brief recovery',
+        duration: 60,
+        instructions: ['Tread water or stand', 'Deep breaths'],
+        audioCoaching: ['Great technique work!', 'Take a breather.'],
+      },
+      {
+        id: 'practice-freestyle',
+        type: 'practice',
+        title: 'Full Freestyle Practice',
+        description: 'Put it all together',
+        duration: 480, // 8 minutes
+        instructions: [
+          'Swim 50m continuous freestyle',
+          'Focus on smooth breathing every 3 strokes',
+          'Rest 45 seconds',
+          'Repeat 3 times',
+        ],
+        audioCoaching: [
+          'Now let\'s put it all together.',
+          'Focus on smooth, rhythmic breathing.',
+          'Keep your body streamlined.',
+          'You\'re looking great out there!',
+          'One more set. You\'ve got this!',
+        ],
+      },
+      {
+        id: 'cooldown-freestyle',
+        type: 'cooldown',
+        title: 'Easy Cooldown',
+        description: 'Gentle swimming to finish',
+        duration: 180, // 3 minutes
+        instructions: [
+          'Swim very easy for 100m',
+          'Mix strokes if you want',
+          'Focus on relaxation',
+        ],
+        audioCoaching: [
+          'Excellent work today!',
+          'Cool down with some easy swimming.',
+          'You made real progress on your freestyle.',
+        ],
+      },
+    ],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
+    estimatedCalories: 200,
+    estimatedDistance: 400,
+  },
+  {
+    id: 'endurance-builder',
+    title: 'Endurance Builder',
+    description: 'Distance and stamina building workout for intermediate swimmers',
+    level: 'intermediate',
+    duration: 45,
+    focusAreas: ['Endurance', 'Pacing', 'Distance Swimming', 'Mental Toughness'],
+    equipment: ['Swim cap', 'Goggles', 'Pull buoy (optional)', 'Water bottle'],
+    safetyChecklist: [
+      'Well hydrated before starting',
+      'Pool has lifeguard on duty',
+      'Know your limits - can stop anytime',
+      'Lane is clear or sharing respectfully',
+    ],
+    intervals: [
+      {
+        id: 'warmup-endurance',
+        type: 'warmup',
+        title: 'Progressive Warm-up',
+        description: 'Gradually increase effort',
+        duration: 600, // 10 minutes
+        instructions: [
+          '200m easy swimming (any stroke)',
+          '100m breathing drills',
+          '100m gradually increasing pace',
+        ],
+        audioCoaching: [
+          'Welcome to endurance training!',
+          'Start easy and warm up those muscles.',
+          'Gradually pick up the pace.',
+        ],
+      },
+      {
+        id: 'practice-endurance-1',
+        type: 'practice',
+        title: 'Distance Set 1',
+        description: 'Sustained moderate effort',
+        duration: 900, // 15 minutes
+        instructions: [
+          '4 x 200m freestyle',
+          'Rest 30 seconds between each',
+          'Keep consistent pace',
+          'Focus on smooth breathing',
+        ],
+        audioCoaching: [
+          'Main set: 4 times 200 meters.',
+          'Find your sustainable pace.',
+          'Halfway there, keep it steady.',
+          'Last one! Strong finish.',
+        ],
+      },
+      {
+        id: 'rest-endurance',
+        type: 'rest',
+        title: 'Active Recovery',
+        description: 'Hydrate and recover',
+        duration: 120, // 2 minutes
+        instructions: ['Easy treading or standing', 'Drink water', 'Stretch arms gently'],
+        audioCoaching: [
+          'Great job on that set!',
+          'Drink water and recover.',
+          'You\'re more than halfway done.',
+        ],
+      },
+      {
+        id: 'practice-endurance-2',
+        type: 'practice',
+        title: 'Pyramid Set',
+        description: 'Varying distances for mental engagement',
+        duration: 900, // 15 minutes
+        instructions: [
+          '100m, 200m, 300m, 200m, 100m',
+          'Rest 20 seconds between each',
+          'Maintain effort as distance changes',
+        ],
+        audioCoaching: [
+          'Pyramid set! Building up then back down.',
+          '100 meters done. Now 200.',
+          'Peak of the pyramid - 300 meters.',
+          'Coming back down. 200 meters.',
+          'Last one! Finish strong with 100.',
+        ],
+      },
+      {
+        id: 'cooldown-endurance',
+        type: 'cooldown',
+        title: 'Gentle Cooldown',
+        description: 'Recover with easy swimming',
+        duration: 180, // 3 minutes
+        instructions: [
+          '200m very easy swimming',
+          'Mix strokes if desired',
+          'Focus on deep breathing',
+        ],
+        audioCoaching: [
+          'Amazing endurance work today!',
+          'Cool down nice and easy.',
+          'You just completed 1,600 meters!',
+          'Be proud of this achievement.',
+        ],
+      },
+    ],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800',
+    estimatedCalories: 400,
+    estimatedDistance: 1600,
+  },
+  {
+    id: 'technique-refinement',
+    title: 'Technique Refinement',
+    description: 'Advanced drills for perfecting stroke mechanics and efficiency',
+    level: 'intermediate',
+    duration: 35,
+    focusAreas: ['Stroke Efficiency', 'Body Position', 'Catch Phase', 'Rotation'],
+    equipment: ['Swim cap', 'Goggles', 'Fins', 'Pull buoy', 'Kickboard'],
+    safetyChecklist: [
+      'All equipment tested and ready',
+      'Lane space available',
+      'Properly warmed up',
+      'Ready to focus on quality over quantity',
+    ],
+    intervals: [
+      {
+        id: 'warmup-tech',
+        type: 'warmup',
+        title: 'Technical Warm-up',
+        description: 'Prime the body for detail work',
+        duration: 420, // 7 minutes
+        instructions: [
+          '200m swim (mix of strokes)',
+          '100m drills (6 kicks, 6 strokes)',
+          '100m build pace',
+        ],
+        audioCoaching: [
+          'Let\'s warm up with focus on technique.',
+          'Feel the water, connect with your stroke.',
+        ],
+      },
+      {
+        id: 'drill-tech-1',
+        type: 'drill',
+        title: 'Fist Drill',
+        description: 'Improve feel for the water',
+        duration: 360, // 6 minutes
+        instructions: [
+          'Swim freestyle with closed fists',
+          'Forces you to engage forearm',
+          '4 x 50m fist drill',
+          'Rest 20 seconds between',
+        ],
+        audioCoaching: [
+          'Close your fists and feel your forearm catch the water.',
+          'This improves your overall catch phase.',
+          'Notice how your forearm pulls too?',
+        ],
+      },
+      {
+        id: 'drill-tech-2',
+        type: 'drill',
+        title: 'Single Arm Freestyle',
+        description: 'Isolate each arm\'s stroke',
+        duration: 480, // 8 minutes
+        instructions: [
+          'Swim with one arm only, other extended',
+          '4 x 25m right arm only',
+          '4 x 25m left arm only',
+          'Focus on high elbow catch',
+        ],
+        audioCoaching: [
+          'One arm at a time. Really feel each stroke.',
+          'High elbow, press back through the water.',
+          'Now switch to the other arm.',
+          'Compare - are they equal?',
+        ],
+      },
+      {
+        id: 'rest-tech',
+        type: 'rest',
+        title: 'Equipment Break',
+        description: 'Switch equipment and recover',
+        duration: 90,
+        instructions: ['Get pull buoy', 'Drink water', 'Stretch shoulders'],
+        audioCoaching: ['Grab your pull buoy.', 'Quick water break.'],
+      },
+      {
+        id: 'drill-tech-3',
+        type: 'drill',
+        title: 'Pull with Buoy',
+        description: 'Focus purely on upper body',
+        duration: 420, // 7 minutes
+        instructions: [
+          'Use pull buoy between legs',
+          '6 x 50m freestyle pull',
+          'Rest 15 seconds between',
+          'Focus on rotation and high elbow',
+        ],
+        audioCoaching: [
+          'Pull buoy isolates your upper body.',
+          'Rotate your body with each stroke.',
+          'Feel that high elbow catch.',
+          'Excellent rotation!',
+        ],
+      },
+      {
+        id: 'practice-tech',
+        type: 'practice',
+        title: 'Perfect Stroke Practice',
+        description: 'Apply everything you\'ve learned',
+        duration: 360, // 6 minutes
+        instructions: [
+          '4 x 75m freestyle',
+          'First 25m: focus on catch',
+          'Second 25m: focus on rotation',
+          'Third 25m: bring it all together',
+          'Rest 20 seconds between',
+        ],
+        audioCoaching: [
+          'Now apply everything.',
+          'First 25: catch phase.',
+          'Next 25: body rotation.',
+          'Last 25: perfect stroke!',
+          'Beautiful swimming!',
+        ],
+      },
+      {
+        id: 'cooldown-tech',
+        type: 'cooldown',
+        title: 'Technical Cooldown',
+        description: 'Easy swimming with awareness',
+        duration: 180, // 3 minutes
+        instructions: [
+          '200m easy swimming',
+          'Think about what you learned',
+          'Swim mindfully',
+        ],
+        audioCoaching: [
+          'Excellent technical work!',
+          'Cool down and reflect on your improvements.',
+          'These drills will transform your swimming.',
+        ],
+      },
+    ],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800',
+    estimatedCalories: 300,
+    estimatedDistance: 1200,
+  },
+  {
+    id: 'multi-stroke-workout',
+    title: 'Multi-Stroke Mastery',
+    description: 'Practice all four competitive strokes for well-rounded swimming',
+    level: 'intermediate',
+    duration: 40,
+    focusAreas: ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Versatility'],
+    equipment: ['Swim cap', 'Goggles', 'Kickboard', 'Water bottle'],
+    safetyChecklist: [
+      'Know all four strokes at basic level',
+      'Lane space for varied movements',
+      'Ready for challenging workout',
+      'Confident in deep water',
+    ],
+    intervals: [
+      {
+        id: 'warmup-multi',
+        type: 'warmup',
+        title: 'Multi-Stroke Warm-up',
+        description: 'Preview all strokes',
+        duration: 480, // 8 minutes
+        instructions: [
+          '400m: 100m each stroke',
+          '(Freestyle, Back, Breast, Free)',
+          'Easy pace, get feel for each stroke',
+        ],
+        audioCoaching: [
+          'Let\'s warm up with all four strokes.',
+          '100 freestyle.',
+          'Switch to backstroke.',
+          'Now breaststroke.',
+          'Finish with freestyle.',
+        ],
+      },
+      {
+        id: 'practice-multi-1',
+        type: 'practice',
+        title: 'Stroke Rotation Set',
+        description: 'Build proficiency in each stroke',
+        duration: 720, // 12 minutes
+        instructions: [
+          '3 rounds of:',
+          '50m Freestyle',
+          '50m Backstroke',
+          '50m Breaststroke',
+          '50m Freestyle',
+          'Rest 30 seconds after each round',
+        ],
+        audioCoaching: [
+          'Round 1! Start with freestyle.',
+          'Flip to backstroke.',
+          'Breaststroke time.',
+          'Back to freestyle.',
+          'Rest 30 seconds. Round 2!',
+          'You\'re doing great!',
+          'Final round - give it your best!',
+        ],
+      },
+      {
+        id: 'rest-multi',
+        type: 'rest',
+        title: 'Midpoint Rest',
+        description: 'Recover before intensity',
+        duration: 120, // 2 minutes
+        instructions: ['Easy treading or floating', 'Drink water', 'Stretch'],
+        audioCoaching: [
+          'Halfway done! Great versatility.',
+          'Hydrate and rest.',
+          'You\'re mastering all the strokes!',
+        ],
+      },
+      {
+        id: 'drill-multi',
+        type: 'drill',
+        title: 'Stroke-Specific Drills',
+        description: 'Refine each stroke',
+        duration: 600, // 10 minutes
+        instructions: [
+          '4 x 50m Freestyle (focus: breathing)',
+          '4 x 50m Backstroke (focus: rotation)',
+          '4 x 50m Breaststroke (focus: timing)',
+          'Rest 15 seconds between each',
+        ],
+        audioCoaching: [
+          'Freestyle drills: perfect that breathing.',
+          'Backstroke: rotate your body.',
+          'Breaststroke: timing is everything.',
+          'Pull, breathe, kick, glide.',
+        ],
+      },
+      {
+        id: 'practice-multi-2',
+        type: 'practice',
+        title: 'Individual Medley Practice',
+        description: 'Transition between strokes',
+        duration: 480, // 8 minutes
+        instructions: [
+          '200m IM order: Fly, Back, Breast, Free',
+          '(If not comfortable with fly, do freestyle instead)',
+          'Rest 60 seconds',
+          'Repeat once',
+        ],
+        audioCoaching: [
+          'Time for individual medley!',
+          'Butterfly or freestyle.',
+          'Transition to backstroke.',
+          'Now breaststroke.',
+          'Finish strong with freestyle!',
+          'Rest, then one more IM!',
+        ],
+      },
+      {
+        id: 'cooldown-multi',
+        type: 'cooldown',
+        title: 'Choice Cooldown',
+        description: 'Easy swimming, your favorite stroke',
+        duration: 180, // 3 minutes
+        instructions: [
+          '200m easy swimming',
+          'Choose your favorite stroke',
+          'Or mix it up',
+          'Nice and relaxed',
+        ],
+        audioCoaching: [
+          'Amazing multi-stroke workout!',
+          'Cool down with your favorite stroke.',
+          'You\'ve earned this easy swimming.',
+          'Great work becoming a versatile swimmer!',
+        ],
+      },
+    ],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
+    estimatedCalories: 380,
+    estimatedDistance: 1800,
+  },
+];

@@ -271,3 +271,52 @@ export interface AdaptiveNotification {
   };
   status: 'pending' | 'sent' | 'read' | 'acted_upon';
 }
+
+// Pool Practice Session Types
+export interface PoolSessionInterval {
+  id: string;
+  type: 'warmup' | 'drill' | 'practice' | 'rest' | 'cooldown';
+  title: string;
+  description: string;
+  duration: number; // in seconds
+  instructions: string[];
+  audioCoaching: string[]; // Audio prompts to play during interval
+  targetHeartRate?: {
+    min: number;
+    max: number;
+  };
+}
+
+export interface PoolSession {
+  id: string;
+  title: string;
+  description: string;
+  level: 'beginner' | 'beginner-intermediate' | 'intermediate' | 'advanced';
+  duration: number; // total duration in minutes
+  focusAreas: string[];
+  equipment: string[];
+  safetyChecklist: string[];
+  intervals: PoolSessionInterval[];
+  thumbnailUrl?: string;
+  estimatedCalories?: number;
+  estimatedDistance?: number; // in meters
+}
+
+export interface PoolSessionProgress {
+  sessionId: string;
+  userId: string;
+  startedAt: string;
+  completedAt?: string;
+  status: 'not-started' | 'in-progress' | 'paused' | 'completed' | 'abandoned';
+  currentIntervalIndex: number;
+  completedIntervals: string[];
+  totalDuration: number; // actual time spent in seconds
+  notes?: string;
+  difficulty?: 'too-easy' | 'just-right' | 'too-hard';
+  metrics?: {
+    heartRateAvg?: number;
+    heartRateMax?: number;
+    restsTaken?: number;
+    distance?: number;
+  };
+}
