@@ -2,6 +2,147 @@
 
 ## 2025-11-17
 
+### Leaderboard System Implementation
+- Enhanced leaderboard backend functions in `/utils/supabase.ts`
+  - **Added Leaderboard Type Export:**
+    - `Leaderboard` type from Supabase database schema
+    - `LeaderboardPeriod` type ('weekly' | 'monthly' | 'all-time')
+
+  - **Enhanced getLeaderboard() Function:**
+    - Added period parameter (weekly, monthly, all-time)
+    - Added limit parameter (default 100 users)
+    - Joins with user_profiles to get user names and emails
+    - Orders by appropriate XP column based on period
+    - Adds rank numbers to results (1-based index)
+
+  - **New getUserRank() Function:**
+    - Calculates user's rank for specific period
+    - Returns rank position (1st, 2nd, 3rd, etc.)
+    - Handles cases where user not found
+
+  - **New getLeaderboardEntry() Function:**
+    - Fetches single user's leaderboard entry
+    - Joins with user profile data
+    - Returns null if entry doesn't exist
+
+  - **New updateLeaderboardEntry() Function:**
+    - Upserts leaderboard data for user
+    - Updates weekly_xp, monthly_xp, total_xp, streak
+    - Automatically updates timestamp
+
+  - **New createLeaderboardEntry() Function:**
+    - Creates new leaderboard entry for user
+    - Initializes all XP values to 0
+
+- Created comprehensive leaderboard screen (`/app/leaderboard.tsx`)
+  - **Period Selection Tabs:**
+    - Three tabs: Weekly, Monthly, All-Time
+    - Active tab highlighted with turquoise background
+    - Seamless switching between periods
+    - Updates data automatically on tab change
+
+  - **User Rank Card:**
+    - Displays current user's rank for selected period
+    - Shows user's XP for the period
+    - Prominent turquoise card with trending up icon
+    - Responsive to period changes
+
+  - **Top 3 Champions Podium:**
+    - Visual podium design for top 3 users
+    - 1st place: Gold crown icon, larger size
+    - 2nd place: Silver medal icon
+    - 3rd place: Bronze medal icon
+    - User names and XP prominently displayed
+
+  - **Full Rankings List:**
+    - Scrollable list of all leaderboard entries
+    - Rank badges (1-3: colored icons, 4+: numbers)
+    - User names with "You" indicator for current user
+    - Streak display (fire emoji + day count)
+    - XP values with color coding (top 3 get special colors)
+    - Current user row highlighted with border
+
+  - **Loading & Error States:**
+    - Loading indicator with message
+    - Error state with retry button
+    - Empty state with helpful message
+    - Pull-to-refresh functionality
+
+  - **Data Management:**
+    - React Query integration for data fetching
+    - 30-second stale time for caching
+    - Automatic refetch on period change
+    - Pull-to-refresh support
+
+- Added leaderboard navigation to Analytics tab (`/app/(tabs)/analytics.tsx`)
+  - **Leaderboard Button:**
+    - Prominent button below streak card
+    - Trophy icon with turquoise color
+    - "View Leaderboard" title
+    - "See how you rank against others" subtitle
+    - Chevron right indicator
+    - Tappable to navigate to leaderboard screen
+
+  - **Added Imports:**
+    - TouchableOpacity for button interaction
+    - router from expo-router for navigation
+    - Trophy and ChevronRight icons from lucide-react-native
+
+  - **Styling:**
+    - Consistent with existing analytics UI
+    - Card-based design with shadow
+    - Icon, content, and chevron layout
+    - Turquoise accent color for trophy icon
+
+### Features Implemented:
+- ✅ Backend leaderboard functions with period support
+- ✅ Weekly, monthly, and all-time leaderboards
+- ✅ User rank calculation and display
+- ✅ Top 3 champions podium with visual design
+- ✅ Full rankings list with infinite scroll capability
+- ✅ Current user highlighting
+- ✅ Streak display on leaderboard
+- ✅ XP value formatting (e.g., "1,234 XP")
+- ✅ Color-coded ranks (gold, silver, bronze)
+- ✅ Loading, error, and empty states
+- ✅ Pull-to-refresh functionality
+- ✅ Navigation from Analytics tab
+- ✅ React Query integration for caching
+- ✅ Responsive design for all screen sizes
+- ✅ Accessible touch targets and labels
+
+### Technical Implementation:
+- TypeScript with strict typing
+- Expo Router file-based routing
+- React Query for data fetching and caching
+- Supabase backend integration
+- Functional components with hooks
+- useMemo for performance optimization
+- Pull-to-refresh with RefreshControl
+- Gradient backgrounds
+- Icon integration with lucide-react-native
+- Platform-specific UI considerations
+- Error boundary patterns
+- Loading state management
+
+### Database Schema:
+- Uses existing `leaderboard` table in Supabase
+- Columns: user_id, weekly_xp, monthly_xp, total_xp, streak
+- Joins with `user_profiles` table for names
+- Indexed for performance
+
+### Next Priority Features:
+- Integrate XP updates into leaderboard table when users earn XP
+- Add leaderboard reset logic for weekly/monthly periods
+- Add friends-only leaderboard filter
+- Add leaderboard achievement triggers
+- Add leaderboard notifications (rank changes)
+- Community features (post/comments/likes)
+- Q&A Forum system
+- Challenges & Competitions
+
+---
+
 ### Dryland Routine Builder Implementation (10 Pre-built Routines)
 - Created dryland routine types (`/constants/types.ts`)
   - **DrylandRoutineExercise**: Exercise reference with duration, reps, sets, rest
