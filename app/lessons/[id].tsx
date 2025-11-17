@@ -163,6 +163,132 @@ export default function LessonDetailScreen() {
               </View>
             </View>
 
+            {/* Step-by-Step Instructions */}
+            {lesson.steps.length > 0 && (
+              <View style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <BookOpen size={20} color={Colors.accent.black} strokeWidth={2} />
+                  <Text style={styles.sectionTitle}>Step-by-Step Instructions</Text>
+                </View>
+                {lesson.steps.map((step, index) => (
+                  <View key={step.number} style={styles.stepCard}>
+                    <View style={styles.stepHeader}>
+                      <View style={styles.stepNumber}>
+                        <Text style={styles.stepNumberText}>{step.number}</Text>
+                      </View>
+                      <Text style={styles.stepTitle}>{step.title}</Text>
+                    </View>
+                    <Text style={styles.stepInstruction}>{step.instruction}</Text>
+
+                    {step.keyPoints.length > 0 && (
+                      <View style={styles.keyPointsContainer}>
+                        <Text style={styles.keyPointsLabel}>Key Points:</Text>
+                        {step.keyPoints.map((point, idx) => (
+                          <View key={idx} style={styles.keyPointItem}>
+                            <View style={styles.keyPointBullet} />
+                            <Text style={styles.keyPointText}>{point}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {step.safetyNote && (
+                      <View style={styles.safetyNoteContainer}>
+                        <Text style={styles.safetyNoteLabel}>⚠️ Safety Note:</Text>
+                        <Text style={styles.safetyNoteText}>{step.safetyNote}</Text>
+                      </View>
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Practice Drills */}
+            {lesson.drills.length > 0 && (
+              <View style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <Target size={20} color={Colors.accent.black} strokeWidth={2} />
+                  <Text style={styles.sectionTitle}>Practice Drills</Text>
+                </View>
+                <Text style={styles.sectionSubtitle}>
+                  Reinforce what you've learned with these focused exercises
+                </Text>
+                {lesson.drills.map((drill, index) => (
+                  <View key={drill.id} style={styles.drillCard}>
+                    <View style={styles.drillHeader}>
+                      <Text style={styles.drillTitle}>{drill.title}</Text>
+                      <View style={styles.drillDurationBadge}>
+                        <Text style={styles.drillDurationText}>{drill.duration}</Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.drillSection}>
+                      <Text style={styles.drillLabel}>Setup:</Text>
+                      <Text style={styles.drillText}>{drill.setup}</Text>
+                    </View>
+
+                    <View style={styles.drillSection}>
+                      <Text style={styles.drillLabel}>Exercise:</Text>
+                      <Text style={styles.drillText}>{drill.exercise}</Text>
+                    </View>
+
+                    <View style={styles.drillSection}>
+                      <Text style={styles.drillLabel}>Goal:</Text>
+                      <Text style={styles.drillGoalText}>{drill.goal}</Text>
+                    </View>
+
+                    {drill.progression && (
+                      <View style={styles.drillProgressionContainer}>
+                        <Text style={styles.drillProgressionLabel}>📈 Progression:</Text>
+                        <Text style={styles.drillProgressionText}>{drill.progression}</Text>
+                      </View>
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Common Mistakes */}
+            {lesson.commonMistakes.length > 0 && (
+              <View style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <Lightbulb size={20} color={Colors.accent.black} strokeWidth={2} />
+                  <Text style={styles.sectionTitle}>Common Mistakes</Text>
+                </View>
+                <Text style={styles.sectionSubtitle}>
+                  Learn what to avoid and how to do it correctly
+                </Text>
+                {lesson.commonMistakes.map((mistake, index) => (
+                  <View key={mistake.id} style={styles.mistakeCard}>
+                    <View style={styles.mistakeComparison}>
+                      {/* Wrong Side */}
+                      <View style={styles.mistakeSide}>
+                        <View style={styles.mistakeLabel}>
+                          <Text style={styles.mistakeLabelText}>❌ Avoid</Text>
+                        </View>
+                        <Text style={styles.mistakeDescription}>
+                          {mistake.wrongDescription}
+                        </Text>
+                      </View>
+
+                      {/* Divider */}
+                      <View style={styles.mistakeDivider} />
+
+                      {/* Right Side */}
+                      <View style={styles.mistakeSide}>
+                        <View style={styles.correctLabel}>
+                          <Text style={styles.correctLabelText}>✓ Correct</Text>
+                        </View>
+                        <Text style={styles.mistakeDescription}>
+                          {mistake.rightDescription}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Practice Tips</Text>
               <View style={styles.tipCard}>
@@ -538,5 +664,239 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400' as const,
     color: Colors.text.secondary,
+  },
+  sectionSubtitle: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+    color: Colors.text.secondary,
+    marginBottom: 16,
+  },
+  // Step Card Styles
+  stepCard: {
+    backgroundColor: Colors.background.white,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  stepHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  stepNumber: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.primary.turquoise,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  stepNumberText: {
+    fontSize: 16,
+    fontWeight: '700' as const,
+    color: Colors.text.white,
+  },
+  stepTitle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '700' as const,
+    color: Colors.text.primary,
+  },
+  stepInstruction: {
+    fontSize: 15,
+    fontWeight: '400' as const,
+    color: Colors.text.primary,
+    lineHeight: 22,
+    marginBottom: 16,
+  },
+  keyPointsContainer: {
+    backgroundColor: Colors.background.light,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  keyPointsLabel: {
+    fontSize: 14,
+    fontWeight: '700' as const,
+    color: Colors.text.primary,
+    marginBottom: 8,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  keyPointItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    marginBottom: 6,
+  },
+  keyPointBullet: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.primary.turquoise,
+    marginTop: 6,
+  },
+  keyPointText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500' as const,
+    color: Colors.text.primary,
+    lineHeight: 20,
+  },
+  safetyNoteContainer: {
+    backgroundColor: Colors.accent.warningLight,
+    borderRadius: 12,
+    padding: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.accent.warning,
+  },
+  safetyNoteLabel: {
+    fontSize: 13,
+    fontWeight: '700' as const,
+    color: Colors.accent.warning,
+    marginBottom: 4,
+  },
+  safetyNoteText: {
+    fontSize: 14,
+    fontWeight: '500' as const,
+    color: Colors.text.primary,
+    lineHeight: 20,
+  },
+  // Drill Card Styles
+  drillCard: {
+    backgroundColor: Colors.background.white,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  drillHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  drillTitle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '700' as const,
+    color: Colors.text.primary,
+  },
+  drillDurationBadge: {
+    backgroundColor: Colors.primary.lightBlue,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  drillDurationText: {
+    fontSize: 12,
+    fontWeight: '600' as const,
+    color: Colors.text.primary,
+  },
+  drillSection: {
+    marginBottom: 12,
+  },
+  drillLabel: {
+    fontSize: 13,
+    fontWeight: '700' as const,
+    color: Colors.text.secondary,
+    marginBottom: 6,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  drillText: {
+    fontSize: 15,
+    fontWeight: '400' as const,
+    color: Colors.text.primary,
+    lineHeight: 22,
+  },
+  drillGoalText: {
+    fontSize: 15,
+    fontWeight: '600' as const,
+    color: Colors.primary.turquoise,
+    lineHeight: 22,
+  },
+  drillProgressionContainer: {
+    backgroundColor: Colors.accent.infoLight,
+    borderRadius: 12,
+    padding: 12,
+    marginTop: 12,
+  },
+  drillProgressionLabel: {
+    fontSize: 13,
+    fontWeight: '700' as const,
+    color: Colors.accent.info,
+    marginBottom: 4,
+  },
+  drillProgressionText: {
+    fontSize: 14,
+    fontWeight: '500' as const,
+    color: Colors.text.primary,
+    lineHeight: 20,
+  },
+  // Common Mistakes Styles
+  mistakeCard: {
+    backgroundColor: Colors.background.white,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  mistakeComparison: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  mistakeSide: {
+    flex: 1,
+  },
+  mistakeLabel: {
+    backgroundColor: Colors.accent.errorLight,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  mistakeLabelText: {
+    fontSize: 12,
+    fontWeight: '700' as const,
+    color: Colors.accent.error,
+  },
+  correctLabel: {
+    backgroundColor: Colors.accent.successLight,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  correctLabelText: {
+    fontSize: 12,
+    fontWeight: '700' as const,
+    color: Colors.accent.success,
+  },
+  mistakeDescription: {
+    fontSize: 14,
+    fontWeight: '500' as const,
+    color: Colors.text.primary,
+    lineHeight: 20,
+  },
+  mistakeDivider: {
+    width: 2,
+    backgroundColor: Colors.ui.border,
   },
 });
