@@ -358,3 +358,64 @@ export interface PoolSessionProgress {
     distance?: number;
   };
 }
+
+// Community Feed Types
+export interface CommunityUser {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  skillLevel: SkillLevel;
+  badges?: string[]; // Achievement badge IDs
+  isVerified?: boolean; // Verified coach or expert
+}
+
+export interface CommunityReaction {
+  type: 'like' | 'celebrate' | 'support' | 'motivate';
+  emoji: string; // '❤️' | '🎉' | '💪' | '🔥'
+  count: number;
+  userReacted: boolean; // Has current user reacted with this
+}
+
+export interface CommunityPost {
+  id: string;
+  author: CommunityUser;
+  type: 'story' | 'achievement' | 'milestone' | 'question' | 'tip';
+  content: string;
+  media?: {
+    type: 'image' | 'video';
+    url: string;
+    thumbnailUrl?: string;
+  }[];
+  achievement?: {
+    id: string;
+    title: string;
+    icon: string;
+    tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+  };
+  milestone?: {
+    type: 'streak' | 'lesson' | 'distance' | 'time' | 'level';
+    value: number | string;
+    label: string;
+  };
+  reactions: CommunityReaction[];
+  commentCount: number;
+  createdAt: string;
+  isPinned?: boolean;
+  tags?: string[];
+}
+
+export interface CommunityComment {
+  id: string;
+  postId: string;
+  author: CommunityUser;
+  content: string;
+  reactions: CommunityReaction[];
+  createdAt: string;
+  isCoachReply?: boolean;
+}
+
+export interface CommunityFilter {
+  type: 'all' | 'stories' | 'achievements' | 'milestones' | 'questions' | 'tips';
+  label: string;
+  icon?: string;
+}

@@ -1,4 +1,4 @@
-import { Module, Lesson, Exercise, PoolSession, DrylandRoutine } from './types';
+import { Module, Lesson, Exercise, PoolSession, DrylandRoutine, CommunityPost, CommunityUser, CommunityReaction } from './types';
 
 export const MODULES: Module[] = [
   {
@@ -1249,5 +1249,294 @@ export const POOL_SESSIONS: PoolSession[] = [
     thumbnailUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
     estimatedCalories: 380,
     estimatedDistance: 1800,
+  },
+];
+
+// Mock Community Users
+const MOCK_USERS: CommunityUser[] = [
+  {
+    id: 'user-1',
+    name: 'Sarah Johnson',
+    avatarUrl: 'https://i.pravatar.cc/150?img=1',
+    skillLevel: 'beginner-2',
+    badges: ['first-lesson', '7-day-streak'],
+  },
+  {
+    id: 'user-2',
+    name: 'Mike Chen',
+    avatarUrl: 'https://i.pravatar.cc/150?img=3',
+    skillLevel: 'intermediate-1',
+    badges: ['30-day-streak', '50-lessons'],
+  },
+  {
+    id: 'user-3',
+    name: 'Emma Rodriguez',
+    avatarUrl: 'https://i.pravatar.cc/150?img=5',
+    skillLevel: 'beginner-1',
+    badges: ['first-lesson'],
+  },
+  {
+    id: 'user-4',
+    name: 'Coach Maria',
+    avatarUrl: 'https://i.pravatar.cc/150?img=9',
+    skillLevel: 'advanced',
+    badges: ['expert', 'coach'],
+    isVerified: true,
+  },
+  {
+    id: 'user-5',
+    name: 'Alex Kim',
+    avatarUrl: 'https://i.pravatar.cc/150?img=7',
+    skillLevel: 'intermediate-2',
+    badges: ['100-day-streak', '100-lessons', 'technique-master'],
+  },
+  {
+    id: 'user-6',
+    name: 'Jessica Lee',
+    avatarUrl: 'https://i.pravatar.cc/150?img=10',
+    skillLevel: 'beginner-2',
+    badges: ['7-day-streak', '10-lessons'],
+  },
+  {
+    id: 'user-7',
+    name: 'David Martinez',
+    avatarUrl: 'https://i.pravatar.cc/150?img=12',
+    skillLevel: 'intermediate-1',
+    badges: ['30-day-streak', '25-lessons'],
+  },
+  {
+    id: 'user-8',
+    name: 'Coach Lisa',
+    avatarUrl: 'https://i.pravatar.cc/150?img=16',
+    skillLevel: 'advanced',
+    badges: ['expert', 'coach'],
+    isVerified: true,
+  },
+];
+
+// Mock Community Posts
+export const COMMUNITY_POSTS: CommunityPost[] = [
+  // Pinned Coach Tip
+  {
+    id: 'post-pinned-1',
+    author: MOCK_USERS[3], // Coach Maria
+    type: 'tip',
+    content: '💡 Weekly Tip: Focus on exhaling underwater! Many beginners hold their breath, which creates tension and makes swimming harder. Practice exhaling slowly through your nose while your face is in the water. This makes inhaling easier and more natural when you turn to breathe. Try it during your next pool session!',
+    reactions: [
+      { type: 'like', emoji: '❤️', count: 142, userReacted: false },
+      { type: 'support', emoji: '💪', count: 87, userReacted: false },
+      { type: 'celebrate', emoji: '🎉', count: 23, userReacted: false },
+    ],
+    commentCount: 34,
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+    isPinned: true,
+    tags: ['breathing', 'technique', 'beginner-tips'],
+  },
+
+  // Achievement Post
+  {
+    id: 'post-1',
+    author: MOCK_USERS[1], // Mike Chen
+    type: 'achievement',
+    content: 'Just earned the "30-Day Streak" achievement! Consistency is key, and this app has kept me motivated every single day. From being afraid of water to swimming confidently - what a journey! 🏊‍♂️',
+    achievement: {
+      id: 'streak-30',
+      title: '30-Day Streak',
+      icon: '🔥',
+      tier: 'gold',
+    },
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 45, userReacted: true },
+      { type: 'motivate', emoji: '🔥', count: 38, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 67, userReacted: false },
+    ],
+    commentCount: 12,
+    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(), // 3 hours ago
+    tags: ['achievement', 'streak', 'motivation'],
+  },
+
+  // Milestone Post with Media
+  {
+    id: 'post-2',
+    author: MOCK_USERS[0], // Sarah Johnson
+    type: 'milestone',
+    content: 'I DID IT! Swam my first 100 meters without stopping! 🎉 Six weeks ago, I was terrified of putting my face in water. Today, I completed 4 laps continuously. To anyone just starting: it gets easier, I promise! Keep showing up! 💙',
+    media: [
+      {
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=400',
+      },
+    ],
+    milestone: {
+      type: 'distance',
+      value: 100,
+      label: 'First 100m',
+    },
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 89, userReacted: false },
+      { type: 'support', emoji: '💪', count: 56, userReacted: true },
+      { type: 'like', emoji: '❤️', count: 103, userReacted: false },
+    ],
+    commentCount: 27,
+    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago
+    tags: ['milestone', 'first-100m', 'beginner-win'],
+  },
+
+  // Story Post
+  {
+    id: 'post-3',
+    author: MOCK_USERS[2], // Emma Rodriguez
+    type: 'story',
+    content: 'Took my daughter to the pool today and she asked me to teach her to swim. A year ago, I would have had to sit on the sidelines. Today, I was able to get in the water with her and show her basic floating. She was so proud of me, and honestly, I was proud of myself too. This app changed my life. Thank you! 🥺❤️',
+    reactions: [
+      { type: 'like', emoji: '❤️', count: 156, userReacted: false },
+      { type: 'celebrate', emoji: '🎉', count: 42, userReacted: false },
+      { type: 'support', emoji: '💪', count: 38, userReacted: false },
+    ],
+    commentCount: 19,
+    createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(), // 8 hours ago
+    tags: ['story', 'family', 'motivation'],
+  },
+
+  // Achievement Post
+  {
+    id: 'post-4',
+    author: MOCK_USERS[4], // Alex Kim
+    type: 'achievement',
+    content: '100 LESSONS COMPLETED! 🎓 Started as a complete beginner 6 months ago. Now I can swim all four competitive strokes with proper technique. The structured learning path and video breakdowns were game-changers. On to the next 100!',
+    achievement: {
+      id: 'lessons-100',
+      title: '100 Lessons',
+      icon: '🎓',
+      tier: 'platinum',
+    },
+    media: [
+      {
+        type: 'video',
+        url: 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?w=400',
+      },
+    ],
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 78, userReacted: false },
+      { type: 'motivate', emoji: '🔥', count: 92, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 134, userReacted: true },
+    ],
+    commentCount: 31,
+    createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(), // 12 hours ago
+    tags: ['achievement', '100-lessons', 'dedication'],
+  },
+
+  // Tip from Coach
+  {
+    id: 'post-5',
+    author: MOCK_USERS[7], // Coach Lisa
+    type: 'tip',
+    content: '🏊 Technique Tuesday: Your kick shouldn\'t make huge splashes! A common mistake is kicking from the knees instead of the hips. Keep your legs relatively straight, kick from the hips, and keep your ankles flexible. The motion should be smooth and controlled. Your feet should just break the surface - not create waves! Practice this during your next dryland session.',
+    reactions: [
+      { type: 'like', emoji: '❤️', count: 98, userReacted: false },
+      { type: 'support', emoji: '💪', count: 45, userReacted: false },
+    ],
+    commentCount: 18,
+    createdAt: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(), // 18 hours ago
+    isPinned: false,
+    tags: ['technique', 'kicking', 'coach-tips'],
+  },
+
+  // Milestone Post
+  {
+    id: 'post-6',
+    author: MOCK_USERS[5], // Jessica Lee
+    type: 'milestone',
+    content: 'Just completed my 7-day streak! 🔥 Small wins matter. A week ago I wasn\'t sure if I could commit to daily practice, but here I am! The dryland exercises have been perfect for days when I can\'t get to the pool. Feeling stronger already!',
+    milestone: {
+      type: 'streak',
+      value: 7,
+      label: '7-Day Streak',
+    },
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 34, userReacted: false },
+      { type: 'motivate', emoji: '🔥', count: 28, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 52, userReacted: false },
+    ],
+    commentCount: 8,
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+    tags: ['milestone', 'streak', 'consistency'],
+  },
+
+  // Story Post
+  {
+    id: 'post-7',
+    author: MOCK_USERS[6], // David Martinez
+    type: 'story',
+    content: 'Finally conquered my fear of deep water! 🌊 Spent the first 3 weeks of this program just working on shallow-end confidence. Today I jumped into the deep end for the first time in my life (I\'m 34!). The safety lessons and gradual progression made all the difference. Never thought I\'d see this day!',
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 67, userReacted: true },
+      { type: 'support', emoji: '💪', count: 89, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 121, userReacted: false },
+    ],
+    commentCount: 23,
+    createdAt: new Date(Date.now() - 30 * 60 * 60 * 1000).toISOString(), // 30 hours ago
+    tags: ['story', 'fear-conquered', 'deep-water'],
+  },
+
+  // Question Post (read-only for MVP)
+  {
+    id: 'post-8',
+    author: MOCK_USERS[0], // Sarah Johnson
+    type: 'question',
+    content: 'Quick question for intermediate swimmers: How long did it take you to feel comfortable with bilateral breathing? I can breathe on my right side fine, but my left side feels so awkward still. Any tips?',
+    reactions: [
+      { type: 'like', emoji: '❤️', count: 23, userReacted: false },
+      { type: 'support', emoji: '💪', count: 12, userReacted: false },
+    ],
+    commentCount: 15,
+    createdAt: new Date(Date.now() - 36 * 60 * 60 * 1000).toISOString(), // 36 hours ago
+    tags: ['question', 'breathing', 'technique'],
+  },
+
+  // Milestone Post
+  {
+    id: 'post-9',
+    author: MOCK_USERS[1], // Mike Chen
+    type: 'milestone',
+    content: 'Level up! Just advanced to Intermediate Level 2! 🎯 The adaptive learning really works - the app knew exactly when I was ready to move forward. Excited to start learning butterfly stroke next week. Bring it on!',
+    milestone: {
+      type: 'level',
+      value: 'intermediate-2',
+      label: 'Intermediate Level 2',
+    },
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 45, userReacted: false },
+      { type: 'motivate', emoji: '🔥', count: 33, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 58, userReacted: false },
+    ],
+    commentCount: 11,
+    createdAt: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(), // 2 days ago
+    tags: ['milestone', 'level-up', 'progression'],
+  },
+
+  // Story Post
+  {
+    id: 'post-10',
+    author: MOCK_USERS[4], // Alex Kim
+    type: 'story',
+    content: 'Completed my first open water swim this weekend! 🌊 Started training with this app in my apartment pool, now I\'m swimming in the ocean. The technique videos prepared me so well - my form held up even with waves and currents. Thank you to this amazing community for the constant encouragement!',
+    media: [
+      {
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1530870110042-98b2cb110834?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1530870110042-98b2cb110834?w=400',
+      },
+    ],
+    reactions: [
+      { type: 'celebrate', emoji: '🎉', count: 91, userReacted: false },
+      { type: 'motivate', emoji: '🔥', count: 67, userReacted: false },
+      { type: 'like', emoji: '❤️', count: 143, userReacted: false },
+    ],
+    commentCount: 28,
+    createdAt: new Date(Date.now() - 60 * 60 * 60 * 1000).toISOString(), // 2.5 days ago
+    tags: ['story', 'open-water', 'achievement'],
   },
 ];
