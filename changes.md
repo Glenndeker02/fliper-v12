@@ -1,5 +1,692 @@
 # Change Log
 
+## 2025-11-17
+
+### Dryland Routine Builder Implementation (10 Pre-built Routines)
+- Created dryland routine types (`/constants/types.ts`)
+  - **DrylandRoutineExercise**: Exercise reference with duration, reps, sets, rest
+  - **DrylandRoutine**: Routine with metadata, exercises, difficulty
+  - **DrylandRoutineProgress**: Progress tracking interface
+
+- Created 10 pre-built dryland routines (`/constants/mockData.ts`)
+  - **Beginner Total Body Warm-up** (15 min, 5 exercises)
+  - **Core Strength Foundation** (20 min, 5 exercises)
+  - **Shoulder Mobility for Freestyle** (12 min, 4 exercises)
+  - **Kick Power Development** (18 min, 5 exercises)
+  - **10-Minute Pre-Swim Activation** (10 min, 4 exercises)
+  - **Upper Body Endurance Builder** (25 min, 6 exercises)
+  - **Morning Swimmer Routine** (15 min, 5 exercises)
+  - **Freestyle Technique Dryland** (20 min, 6 exercises)
+  - **Post-Swim Cooldown & Stretch** (12 min, 4 exercises)
+  - **Advanced Swim Conditioning** (30 min, 7 exercises)
+
+- Created dryland routines list screen (`/app/routines/index.tsx`)
+  - Browse all 10 pre-built routines
+  - Filter by difficulty (All, Beginner, Intermediate, Advanced)
+  - Routine cards with thumbnails and metadata
+  - Duration, calories, exercise count display
+  - Focus areas tags (up to 3 + overflow)
+  - Target muscles display
+  - Tap to navigate to routine player
+
+- Created dryland routine player screen (`/app/routines/[id].tsx`)
+  - **Ready Modal:**
+    - Equipment checklist
+    - Routine overview (exercises, duration)
+    - Start/cancel options
+
+  - **Routine Timer:**
+    - Real-time exercise countdown
+    - Auto-advance to next exercise
+    - Rest periods between exercises
+    - Total routine time tracking
+    - Pause/resume functionality
+
+  - **Exercise Display:**
+    - Current exercise title and category
+    - Large timer display (MM:SS format)
+    - Progress bar with gradient fill
+    - Reps/sets display badges
+    - Step-by-step instructions
+    - Breathing cues
+
+  - **Rest Periods:**
+    - Rest time countdown
+    - Visual indicator (💧 Rest Time)
+    - Auto-advance after rest
+    - Different progress bar color
+
+  - **Routine Progress Tracking:**
+    - Visual progress list of all exercises
+    - Completed exercises with checkmark
+    - Current exercise highlighted
+    - Exercise duration and reps display
+    - Opacity differentiation for past/future
+
+  - **Controls:**
+    - Play button to start
+    - Pause/resume during routine
+    - Skip to next exercise
+    - Exit confirmation dialog
+    - Completion celebration
+
+### Features Implemented:
+- ✅ 10 pre-built dryland routines (MVP requirement)
+- ✅ Routines list with filtering by difficulty
+- ✅ Routine player with timer and exercise tracking
+- ✅ Auto-advance through exercises
+- ✅ Rest periods between exercises
+- ✅ Equipment checklist before starting
+- ✅ Step-by-step exercise instructions
+- ✅ Breathing cues for each step
+- ✅ Reps/sets display
+- ✅ Pause/resume/skip controls
+- ✅ Routine progress visualization
+- ✅ Completion flow with summary
+- ✅ Exit confirmation dialog
+- ✅ Responsive design for all screens
+
+### Technical Implementation:
+- TypeScript with strict typing
+- Expo Router file-based routing (dynamic [id] route)
+- Timer with useRef and setInterval
+- Modal for ready state
+- Alert dialogs for confirmations
+- Exercise data lookup from DRYLAND_EXERCISES
+- Gradient backgrounds and shadows
+- Proper cleanup on unmount
+- Production-ready state management
+
+### Next Priority Features:
+- Integrate XP rewards for routine completion
+- Connect to Supabase for routine progress persistence
+- Add routine completion summary screen
+- Add custom routine builder (Phase 2)
+- Add routine history and analytics
+- Add favorite routines feature
+
+---
+
+### Journal System Implementation (Text, Voice, Video with AI Analysis)
+- Created comprehensive journal list screen (`/app/journal/index.tsx`)
+  - **Journal Discovery:**
+    - Browse all journal entries (text, voice, video)
+    - Filter by entry type (All, Text, Voice, Video)
+    - Entry cards with previews and AI analysis summaries
+    - Stats card showing total entries and journaling streak
+    - Pull-to-refresh functionality
+
+  - **Entry Previews:**
+    - Entry type badges with color coding
+    - Timestamp display (relative and absolute)
+    - Text content preview (first 2 lines)
+    - Media indicators for voice/video entries
+    - AI sentiment analysis preview with color-coded badges
+    - Key insights preview
+    - Tags display (up to 3 tags + overflow)
+
+  - **UI Features:**
+    - Horizontal scrolling filter chips
+    - Empty state with call-to-action
+    - Add button for quick journal creation
+    - JournalModal integration for entry type selection
+    - Responsive card layouts with shadows
+
+- Created text journal entry screen (`/app/journal/text.tsx`)
+  - **Writing Experience:**
+    - Large, auto-focused text input area
+    - AI writing prompts (5 prompts)
+    - Insertable prompt chips
+    - Character count display
+    - Keyboard-aware scrolling
+
+  - **Features:**
+    - Tag selection (10 suggested tags)
+    - Multi-select tag chips with active state
+    - Privacy toggle (public/private)
+    - Save with loading state
+    - Journaling tips card
+
+  - **AI Prompts:**
+    - "How did you feel in the water today?"
+    - "What was your biggest challenge?"
+    - "What are you most proud of?"
+    - "What would you like to improve next time?"
+    - "Describe your swimming session in one sentence"
+
+- Created voice journal entry screen (`/app/journal/voice.tsx`)
+  - **Recording Experience:**
+    - Animated waveform during recording
+    - Real-time timer display (MM:SS format)
+    - Large, accessible record button
+    - Pause/resume functionality
+    - Stop and complete workflow
+
+  - **Playback Controls:**
+    - Play/pause recorded audio
+    - Delete and re-record options
+    - Visual recording indicator (red dot + "REC")
+    - Recording status display
+
+  - **UI Features:**
+    - Simulated waveform visualization
+    - Recording tips card
+    - Prompt suggestions for voice entries
+    - Save with upload simulation
+    - Clean, focused interface
+
+- Created video journal entry screen (`/app/journal/video.tsx`)
+  - **Recording Experience:**
+    - Camera preview (front/back camera toggle)
+    - Recording timer overlay
+    - Large, accessible record button
+    - 4:3 aspect ratio video container
+    - REC indicator with timestamp
+
+  - **Playback Controls:**
+    - Video preview after recording
+    - Play/pause functionality
+    - Delete and re-record options
+    - Flip camera button
+
+  - **UI Features:**
+    - Video recording tips card
+    - Content suggestions (what to record)
+    - Save with upload simulation
+    - Landscape mode recommendation
+    - Lighting and technique tips
+
+- Existing journal detail screen (`/app/journal/[id].tsx`)
+  - Already integrated with Supabase
+  - Displays text, voice, and video entries
+  - AI analysis display
+  - Audio playback for voice entries
+  - Video playback with native controls
+  - Tags display
+  - Delete functionality
+
+### Backend Integration (Existing):
+- Supabase `journals` table schema:
+  - id, user_id, created_at, updated_at
+  - entry_type (text, voice, video)
+  - text_content, audio_url, video_url
+  - ai_analysis (jsonb)
+  - sentiment_score
+  - tags (text array)
+  - is_private (boolean)
+
+- Existing utility functions in `/utils/supabase.ts`:
+  - `createJournal()` - Create new journal entry
+  - `getJournalEntries()` - Fetch user's journals
+  - `getJournalEntry()` - Fetch single journal
+  - `updateJournalEntry()` - Update journal
+  - `deleteJournalEntry()` - Delete journal
+  - `getJournalAnalytics()` - Get user's journal stats
+
+- AI analysis utilities in `/utils/aiFeedback.ts`:
+  - `analyzeJournalEntry()` - AI sentiment analysis
+
+### Features Implemented:
+- ✅ Text journal entry creation with AI prompts
+- ✅ Voice journal recording (simulated, ready for expo-av)
+- ✅ Video journal recording (simulated, ready for expo-camera)
+- ✅ Journal list with filtering and previews
+- ✅ AI analysis display with sentiment, insights, and recommendations
+- ✅ Tag system with suggested tags
+- ✅ Privacy controls (public/private)
+- ✅ Entry type badges and color coding
+- ✅ Character count for text entries
+- ✅ Recording timers for voice/video
+- ✅ Playback controls for media entries
+- ✅ Delete and re-record functionality
+- ✅ Pull-to-refresh on list
+- ✅ Empty states with helpful messaging
+- ✅ Journaling tips and prompts
+
+### Technical Implementation:
+- React Native with TypeScript
+- Expo Router file-based routing
+- KeyboardAvoidingView for text entry
+- Timer implementation with useRef and setInterval
+- Modal for entry type selection
+- Alert dialogs for confirmations
+- Gradient backgrounds and shadows
+- Responsive layouts for all screen sizes
+- Platform-specific UI adjustments (iOS/Android)
+- Supabase integration (ready for production)
+- Audio/video recording placeholders (ready for expo-av/expo-camera)
+
+### Next Priority Features:
+- Implement actual audio recording with expo-av
+- Implement actual video recording with expo-camera
+- Connect AI analysis to real AI service
+- Add voice-to-text transcription
+- Add video technique analysis
+- Implement journal sharing with coaches/community
+- Add journal export functionality
+- Create journal analytics dashboard
+
+---
+
+### Pool Practice Session Builder Implementation
+- Created pool practice sessions list screen (`/app/pool/index.tsx`)
+  - **Session Discovery:**
+    - Browse all 5 pre-built pool practice sessions
+    - Filter by difficulty level (Beginner, Beg-Int, Intermediate, Advanced)
+    - Session cards with thumbnail images
+    - Session metadata (duration, calories, intervals count)
+    - Focus areas tags display
+
+  - **Session Card Details:**
+    - Difficulty level badges with color coding
+    - Estimated calories and duration
+    - Number of intervals preview
+    - Up to 3 focus areas + overflow count
+    - Tap to navigate to session player
+
+  - **UI Features:**
+    - Horizontal scrolling filter chips
+    - Empty state for no results
+    - Gradient header background
+    - Shadow and elevation for depth
+    - Responsive card layouts
+
+- Created pool practice session player screen (`/app/pool/[id].tsx`)
+  - **Safety Features:**
+    - Safety checklist modal before starting
+    - Must confirm safety items to begin
+    - Exit confirmation dialog
+    - Session abandonment prevention
+
+  - **Session Timer:**
+    - Real-time interval countdown timer
+    - Total session time tracking
+    - Auto-advance to next interval when complete
+    - Pause/resume functionality
+    - Progress percentage display
+
+  - **Audio Coaching:**
+    - Timed audio coaching prompts (at 25%, 50%, 75% of interval)
+    - Rotating coaching messages
+    - Microphone icon indicator
+    - Italic styling for coaching text
+
+  - **Interval Display:**
+    - Current interval title and description
+    - Interval type badges (warmup, drill, practice, rest, cooldown)
+    - Type-specific color coding and emojis
+    - Large timer display (MM:SS format)
+    - Progress bar with gradient fill
+
+  - **Instructions:**
+    - Numbered step-by-step instructions
+    - Bulleted list with numbered badges
+    - Clear, actionable text
+    - Easy-to-read formatting
+
+  - **Session Progress Tracking:**
+    - Visual progress list of all intervals
+    - Completed intervals marked with checkmark
+    - Current interval highlighted
+    - Interval duration display
+    - Opacity differentiation for past/future intervals
+
+  - **Controls:**
+    - Play button to start session
+    - Pause/resume button during session
+    - Skip to next interval button
+    - Large, accessible touch targets
+    - Shadow effects for depth
+
+  - **Session Completion:**
+    - Completion alert with time summary
+    - Option to view summary or exit
+    - Total time tracking
+    - Success celebration
+
+### Features Implemented:
+- ✅ 5 pre-built pool practice sessions from mockData
+- ✅ Session list with filtering by difficulty
+- ✅ Session player with timer and interval tracking
+- ✅ Audio coaching prompts (timed triggers)
+- ✅ Safety checklist before starting
+- ✅ Auto-advance through intervals
+- ✅ Pause/resume functionality
+- ✅ Session progress visualization
+- ✅ Step-by-step instructions per interval
+- ✅ Type-specific color coding (warmup, drill, practice, rest, cooldown)
+- ✅ Session completion flow
+- ✅ Exit confirmation dialog
+- ✅ Responsive design for all screen sizes
+
+### Technical Implementation:
+- React Native with TypeScript
+- Expo Router for file-based routing
+- Timer implementation with useRef and setInterval
+- State management with useState
+- Modal components for safety checklist
+- Alert dialogs for confirmations
+- Gradient backgrounds with expo-linear-gradient
+- Icon integration with lucide-react-native
+- Proper cleanup on component unmount
+- Production-ready error handling
+
+### Next Priority Features:
+- Integrate XP rewards for session completion
+- Connect to Supabase for session progress persistence
+- Add session summary screen with stats
+- Implement actual audio playback (currently simulated)
+- Add session history and analytics
+- Custom session builder (future P2 feature)
+
+---
+
+### Advanced Video Player Implementation
+- Created comprehensive AdvancedVideoPlayer component (`/components/AdvancedVideoPlayer.tsx`)
+  - **Playback Controls:**
+    - Play/Pause with center overlay button
+    - Skip backward/forward 10 seconds
+    - Volume control with slider
+    - Mute/unmute toggle
+    - Fullscreen mode support
+
+  - **Advanced Features:**
+    - Playback speed control (0.5x, 0.75x, 1x, 1.25x, 1.5x)
+    - Quality selection (Auto, 1080p, 720p, 480p)
+    - Captions toggle
+    - Multiple camera angles support
+    - Progress tracking with callback
+    - Auto-hide controls (3-second timer)
+    - Buffering indicator
+
+  - **Chapter Markers:**
+    - Timeline with visual chapter markers
+    - Color-coded by type (setup, execution, mistakes, tips)
+    - Clickable markers to jump to chapters
+    - Current chapter display in top bar
+
+  - **Camera Angle Selector:**
+    - Horizontal scrollable angle picker
+    - Seamless switching between angles
+    - Maintains playback position on angle change
+    - Visual active state indicator
+
+  - **Settings Modal:**
+    - Tabbed interface (Speed, Quality, Captions)
+    - Clean modal design with bottom sheet
+    - Visual indicators for selected options
+
+  - **UI/UX Enhancements:**
+    - Responsive touch controls
+    - Accessible control sizes (44pt minimum)
+    - Progress slider with chapter markers
+    - Time display (current / total)
+    - Smooth animations and transitions
+    - Dark overlay for better visibility
+
+- Updated lesson detail screen (`/app/lessons/[id].tsx`)
+  - Integrated AdvancedVideoPlayer component
+  - Removed basic expo-av Video component
+  - Added chapter data structure
+  - Added camera angle data structure
+  - Implemented progress tracking callback
+  - Implemented completion callback
+  - Maintained existing lesson content (steps, drills, mistakes)
+
+- Installed Dependencies:
+  - Added `@react-native-community/slider` for volume and progress controls
+
+### Features Implemented:
+- ✅ Professional video player with all controls from PRD
+- ✅ Playback speed adjustment (0.5x to 1.5x)
+- ✅ Quality selection (Auto, 1080p, 720p, 480p)
+- ✅ Caption toggle support
+- ✅ Multiple camera angles (Above Water, Underwater, Side View, Split View)
+- ✅ Chapter markers with timeline navigation
+- ✅ Progress tracking and resume functionality
+- ✅ Fullscreen mode
+- ✅ Auto-hiding controls
+- ✅ Volume control with mute toggle
+- ✅ Skip forward/backward 10 seconds
+- ✅ Buffering states
+
+### Next Priority Features:
+- Journal system UI (text, voice, video entries)
+- Achievements UI
+- Community feed
+
+---
+
+### Gamification System Implementation
+- Created comprehensive gamification utility (`/utils/gamification.ts`)
+  - **Level System:**
+    - 10 levels from "Water Novice" to "Swimming Champion"
+    - Exponential XP progression (100 XP for Level 1, 5500 XP for Level 10)
+    - Each level unlocks new perks, features, and content
+    - Color-coded levels with unique emojis
+
+  - **XP Rewards System:**
+    - 25+ different XP reward types
+    - Lessons: 50-150 XP based on completion level
+    - Pool sessions: 30-100 XP
+    - Dryland workouts: 75 XP
+    - Streaks: 20 XP/day + milestone bonuses (7-day, 30-day, 100-day)
+    - Journal entries: 30-60 XP based on type
+    - Community participation: 5-50 XP
+    - Challenges and achievements: 50-1000 XP
+
+  - **Core Functions:**
+    - `calculateLevel()` - Determines current level and progress percentage
+    - `checkLevelUp()` - Detects level-up events
+    - `awardXP()` - Adds XP and checks for level-ups
+    - `calculatePoints()` - Separate points system for leaderboards
+    - Helper functions for formatting, colors, icons
+
+- Created XPDisplay component (`/components/XPDisplay.tsx`)
+  - **Three Variants:**
+    - **Mini:** Compact badge + XP count for headers
+    - **Compact:** Single-line display with level, title, progress bar
+    - **Full:** Detailed card with gradient, stats, progress breakdown
+
+  - **Features:**
+    - Gradient backgrounds matching level colors
+    - Animated progress bars
+    - Level badge with emoji icon
+    - XP to next level countdown
+    - Tappable to navigate to progress page
+    - Responsive design for all screen sizes
+
+- Created LevelUpModal component (`/components/LevelUpModal.tsx`)
+  - **Celebration Animation:**
+    - Fade and scale entrance animation
+    - Animated confetti effect (20 particles)
+    - Springy modal appearance
+    - Auto-shows perks after 1 second
+
+  - **Visual Design:**
+    - Gradient background matching new level color
+    - Large level badge with emoji and number
+    - Sparkles decoration
+    - Trophy icon with total XP
+    - Unlocked perks list in card
+
+  - **User Experience:**
+    - BlurView background overlay
+    - Smooth close animation
+    - Scrollable perks list
+    - Clear "Continue" button
+
+- Created XPRewardToast component (`/components/XPRewardToast.tsx`)
+  - **Toast Notification:**
+    - Slides in from top with spring animation
+    - Auto-hides after 3 seconds
+    - Gradient background (turquoise to coral)
+    - Star icon with amount and description
+    - Trending up indicator
+    - Platform-specific positioning (iOS/Android)
+
+  - **Features:**
+    - Non-blocking overlay
+    - Smooth entrance/exit animations
+    - Formatted XP display (e.g., "1,234 XP")
+    - Clear visual hierarchy
+
+- Integrated gamification into home screen (`/app/(tabs)/home.tsx`)
+  - Added XP display to header (mini variant)
+  - Added XP progress card below header (compact variant)
+  - Added level-up modal integration
+  - Added XP reward toast integration
+  - State management for XP, level-ups, and rewards
+
+### Features Implemented:
+- ✅ Complete 10-level progression system
+- ✅ XP rewards for 25+ activity types
+- ✅ XP display components (3 variants)
+- ✅ Level-up celebration modal with animations
+- ✅ XP reward toast notifications
+- ✅ Progress tracking with percentage
+- ✅ Level perks system
+- ✅ Home screen integration
+- ✅ Formatted XP display (e.g., "1,234 XP")
+- ✅ Color-coded levels with emoji icons
+- ✅ Gradient backgrounds
+- ✅ Responsive design
+
+### Technical Implementation:
+- TypeScript with strict typing
+- Animated components using React Native Animated API
+- Gradient designs with expo-linear-gradient
+- BlurView effects for modals
+- Reusable component architecture
+- Comprehensive utility functions
+- Production-ready state management hooks
+
+### Next Priority Features:
+- Integrate XP rewards into lesson completion
+- Integrate XP rewards into pool session completion
+- Connect to Supabase user_profiles table for XP persistence
+- Journal system UI
+- Community feed
+
+---
+
+### Achievements System Implementation
+- Enhanced achievements utility (`/utils/achievements.ts`)
+  - **35 Comprehensive Achievements:**
+    - Learning (7): First lesson through 50 lessons, module mastery
+    - Practice (5): Pool sessions, dryland workouts, balanced training
+    - Streak (4): Week, month, 100-day streaks, comeback
+    - Social (5): Journal entries, video analysis, community contributions
+    - Mastery (4): Technique perfectionist, multi-stroke, safety, endurance
+    - Milestone (10): Time-based, XP-based, level-based achievements
+
+  - **4 Achievement Tiers:**
+    - Bronze: Entry-level achievements (100-200 XP)
+    - Silver: Intermediate achievements (200-500 XP)
+    - Gold: Advanced achievements (400-700 XP)
+    - Platinum: Elite achievements (800-1500 XP)
+
+  - **Core Functions:**
+    - Progress calculation for each achievement
+    - Unlock detection and validation
+    - Category and tier filtering
+    - Secret achievements system
+    - Statistics and analytics
+    - Recently unlocked sorting
+    - Almost unlocked detection (75%+ threshold)
+
+- Created AchievementBadge component (`/components/AchievementBadge.tsx`)
+  - **Three Display Variants:**
+    - **Compact:** Horizontal layout for lists (icon + title + progress bar)
+    - **Default:** Full card with icon, title, description, XP reward, progress
+    - **Large:** Detailed card with gradient, stats, unlock date
+
+  - **Visual Features:**
+    - Tier-colored gradients and badges
+    - Lock icon for locked achievements
+    - Progress bars with tier colors
+    - XP reward display with star icon
+    - Tier badge (Bronze/Silver/Gold/Platinum)
+    - Opacity effect for locked achievements
+    - Secret achievements show "???" when locked
+
+- Created AchievementUnlockModal component (`/components/AchievementUnlockModal.tsx`)
+  - **Celebration Animations:**
+    - Fade and scale entrance
+    - Icon bounce effect
+    - Continuous sparkle animation (6 sparkles)
+    - Smooth close animation
+
+  - **Visual Design:**
+    - Tier-specific gradient background
+    - Large achievement icon with tier ring
+    - "ACHIEVEMENT UNLOCKED" badge with trophy icon
+    - XP reward display
+    - Category badge
+    - BlurView background overlay
+
+  - **User Experience:**
+    - Tap "Awesome!" button to close
+    - Sparkles rotate and fade around screen
+    - Smooth animations throughout
+
+- Enhanced achievements screen (`/app/achievements.tsx`)
+  - **Statistics Overview:**
+    - Total unlocked vs total count
+    - Breakdown by tier (Bronze/Silver/Gold/Platinum)
+    - Trophy icon for visual appeal
+
+  - **Advanced Filtering:**
+    - Category filter (All, Learning, Practice, Streak, Social, Mastery, Milestone)
+    - Tier filter (All, Bronze, Silver, Gold, Platinum)
+    - "Unlocked Only" toggle filter
+    - Horizontal scrolling filter chips
+
+  - **Section List Display:**
+    - Grouped by category with section headers
+    - Category icon and name
+    - Unlocked count per category
+    - Progress bars for locked achievements
+    - Empty state when no matches
+
+  - **Interaction:**
+    - Tap unlocked achievements to view details in modal
+    - Secret achievements hidden until unlocked
+    - Real-time progress calculation
+    - Smooth scrolling
+
+### Features Implemented:
+- ✅ 35 total achievements across 6 categories
+- ✅ 4-tier system (Bronze, Silver, Gold, Platinum)
+- ✅ Secret achievements (4 hidden until unlocked)
+- ✅ Progress tracking for all achievements
+- ✅ Achievement badge component (3 variants)
+- ✅ Unlock celebration modal with animations
+- ✅ Full achievements list screen with filters
+- ✅ Category and tier filtering
+- ✅ Statistics overview
+- ✅ XP rewards (100-1500 XP per achievement)
+- ✅ Tier-colored gradients and UI elements
+
+### Technical Implementation:
+- TypeScript with strict typing
+- Comprehensive achievement definition system
+- Progress calculation algorithms
+- Filtering and sorting utilities
+- Animated components (fade, scale, bounce, sparkle)
+- Gradient backgrounds with tier colors
+- SectionList for performance
+- useMemo for optimized filtering
+- BlurView effects
+
+### Next Priority Features:
+- Integrate achievements checking into user actions
+- Connect to Supabase achievements table
+- Add achievement unlock triggers
+- Journal system UI
+- Custom practice session builder
+- Community feed
+
 ## 2025-10-30
 
 ### Authentication System Implementation

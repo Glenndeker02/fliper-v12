@@ -27,10 +27,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '@/constants/colors';
 import { MODULES, DRYLAND_EXERCISES } from '@/constants/mockData';
 import FloatingJournalButton from '@/components/FloatingJournalButton';
+import XPDisplay from '@/components/XPDisplay';
+import LevelUpModal from '@/components/LevelUpModal';
+import XPRewardToast from '@/components/XPRewardToast';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getCurrentUser } from '@/utils/supabase';
 import { getUpcomingLessons, LessonSchedule } from '@/utils/lessonScheduler';
 import { getUserProgress } from '@/utils/progressTracker';
+import { LevelUpData } from '@/utils/gamification';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -47,6 +51,16 @@ export default function HomeScreen() {
     lastActivity: Date;
   } | null>(null);
   const [currentModule] = useState(MODULES[0]);
+
+  // Gamification state
+  const [totalXP, setTotalXP] = useState(450); // Example XP - load from user profile in production
+  const [levelUpData, setLevelUpData] = useState<LevelUpData | null>(null);
+  const [showLevelUpModal, setShowLevelUpModal] = useState(false);
+  const [xpReward, setXPReward] = useState<{ visible: boolean; amount: number; description: string }>({
+    visible: false,
+    amount: 0,
+    description: '',
+  });
 
   useEffect(() => {
     loadUserData();
@@ -95,13 +109,21 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.header}>
-            <View>
+            <View style={{ flex: 1 }}>
               <Text style={styles.greeting}>Hello, Swimmer!</Text>
               <Text style={styles.subtitle}>Ready to make waves today?</Text>
             </View>
-            <Pressable style={styles.profileButton}>
-              <User size={24} color={Colors.text.primary} />
-            </Pressable>
+            <View style={styles.headerRight}>
+              <XPDisplay totalXP={totalXP} variant="mini" onPress={() => router.push('/progress')} />
+              <Pressable style={styles.profileButton}>
+                <User size={24} color={Colors.text.primary} />
+              </Pressable>
+            </View>
+          </View>
+
+          {/* XP Progress Card */}
+          <View style={styles.xpSection}>
+            <XPDisplay totalXP={totalXP} variant="compact" onPress={() => router.push('/progress')} />
           </View>
 
           <View style={styles.progressCard}>
@@ -429,6 +451,19 @@ export default function HomeScreen() {
           </View>
         </ScrollView>
         <FloatingJournalButton />
+
+        {/* Gamification overlays */}
+        <XPRewardToast
+          visible={xpReward.visible}
+          amount={xpReward.amount}
+          description={xpReward.description}
+          onHide={() => setXPReward({ ...xpReward, visible: false })}
+        />
+        <LevelUpModal
+          visible={showLevelUpModal}
+          levelUpData={levelUpData}
+          onClose={() => setShowLevelUpModal(false)}
+        />
       </LinearGradient>
     </View>
   );
@@ -455,7 +490,16 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingHorizontal: 24,
+    marginBottom: 24,
+  },
+  headerRight: {
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
+  },
+  xpSection: {
     paddingHorizontal: 24,
     marginBottom: 24,
   },

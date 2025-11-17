@@ -143,8 +143,11 @@ export interface Lesson {
 export interface LessonStep {
   number: number;
   title: string;
-  description: string;
-  imageUrl: string;
+  instruction: string;
+  keyPoints: string[];
+  safetyNote?: string;
+  imageUrl?: string;
+  description?: string; // deprecated, use instruction
   proTip?: string;
   warning?: string;
 }
@@ -198,6 +201,41 @@ export interface ExerciseStep {
   imageUrl: string;
   breathing?: string;
   reps?: string;
+}
+
+// Dryland Routine Types
+export interface DrylandRoutineExercise {
+  exerciseId: string;
+  duration: number; // in seconds
+  reps?: number;
+  sets?: number;
+  restAfter: number; // rest time in seconds after this exercise
+}
+
+export interface DrylandRoutine {
+  id: string;
+  title: string;
+  description: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  duration: number; // total duration in minutes
+  focusAreas: string[];
+  equipment: string[];
+  exercises: DrylandRoutineExercise[];
+  thumbnailUrl?: string;
+  estimatedCalories?: number;
+  targetMuscles: string[];
+}
+
+export interface DrylandRoutineProgress {
+  routineId: string;
+  userId: string;
+  startedAt: string;
+  completedAt?: string;
+  status: 'not-started' | 'in-progress' | 'paused' | 'completed' | 'abandoned';
+  currentExerciseIndex: number;
+  completedExercises: string[];
+  totalDuration: number; // actual time spent in seconds
+  notes?: string;
 }
 
 // Journal Types
@@ -270,4 +308,53 @@ export interface AdaptiveNotification {
     action_url?: string;
   };
   status: 'pending' | 'sent' | 'read' | 'acted_upon';
+}
+
+// Pool Practice Session Types
+export interface PoolSessionInterval {
+  id: string;
+  type: 'warmup' | 'drill' | 'practice' | 'rest' | 'cooldown';
+  title: string;
+  description: string;
+  duration: number; // in seconds
+  instructions: string[];
+  audioCoaching: string[]; // Audio prompts to play during interval
+  targetHeartRate?: {
+    min: number;
+    max: number;
+  };
+}
+
+export interface PoolSession {
+  id: string;
+  title: string;
+  description: string;
+  level: 'beginner' | 'beginner-intermediate' | 'intermediate' | 'advanced';
+  duration: number; // total duration in minutes
+  focusAreas: string[];
+  equipment: string[];
+  safetyChecklist: string[];
+  intervals: PoolSessionInterval[];
+  thumbnailUrl?: string;
+  estimatedCalories?: number;
+  estimatedDistance?: number; // in meters
+}
+
+export interface PoolSessionProgress {
+  sessionId: string;
+  userId: string;
+  startedAt: string;
+  completedAt?: string;
+  status: 'not-started' | 'in-progress' | 'paused' | 'completed' | 'abandoned';
+  currentIntervalIndex: number;
+  completedIntervals: string[];
+  totalDuration: number; // actual time spent in seconds
+  notes?: string;
+  difficulty?: 'too-easy' | 'just-right' | 'too-hard';
+  metrics?: {
+    heartRateAvg?: number;
+    heartRateMax?: number;
+    restsTaken?: number;
+    distance?: number;
+  };
 }
