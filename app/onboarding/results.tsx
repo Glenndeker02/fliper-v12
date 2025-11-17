@@ -53,7 +53,12 @@ export default function ResultsScreen() {
   };
 
   const handleStart = () => {
-    router.replace('/(tabs)/home');
+    // Beginner Level 1 and 2 users must complete safety orientation
+    if (skillLevel === 'beginner-1' || skillLevel === 'beginner-2') {
+      router.push('/onboarding/safety-orientation');
+    } else {
+      router.replace('/(tabs)/home');
+    }
   };
 
   const getSkillLevelInfo = (level: SkillLevel) => {
