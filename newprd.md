@@ -3013,3 +3013,249 @@ Options displayed:
 - Privacy
 - Help & Support
 - About
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LEARN MODULE SCREEN - DETAILED WIREFRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+User taps "Learn" tab in bottom navigation
+    ↓
+[Learn Module Screen]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: "Learn"
+Subtitle: "Master swimming skills at your pace"
+
+[Search Bar]
+🔍 "Search lessons, techniques, drills..."
+Tap to activate search
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+YOUR LEARNING PATH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Current Level Banner]
+🏊 Beginner Level 1: Water Confidence & Safety
+Progress bar: 40% complete
+"4 of 6 lessons completed"
+
+[Horizontal Scrollable Module Cards]
+
+Current Module (Highlighted):
+┌──────────────────────────┐
+│ Water Confidence & Safety│
+│ 🎯 IN PROGRESS          │
+│ ━━━━━━━━━━━━━━━━━━━━━  │
+│ 4 of 6 lessons (40%)     │
+│ 2-4 weeks estimated      │
+└──────────────────────────┘
+
+Next Module (Locked):
+┌──────────────────────────┐
+│ Foundation Skills        │
+│ 🔒 LOCKED                │
+│ Complete Water Confidence│
+│ to unlock                │
+└──────────────────────────┘
+
+Future Modules (Greyed out):
+- Freestyle Fundamentals
+- Multiple Strokes
+- Advanced Techniques
+
+User can horizontal scroll to preview path
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CURRENT MODULE LESSONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Section Header]
+"Water Confidence & Safety"
+"Master these skills to build your foundation"
+
+[Lesson List - Vertical scrollable]
+
+Lesson 1:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ✓ Getting Comfortable   │
+│              in Water                 │
+│              Duration: 8 min          │
+│              COMPLETED                │
+│              ★★★★★ Self-rated        │
+└──────────────────────────────────────┘
+
+Lesson 2:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ✓ Breathing Fundamentals│
+│              Duration: 12 min         │
+│              COMPLETED                │
+│              ★★★★☆ Self-rated        │
+│              "Review" button          │
+└──────────────────────────────────────┘
+
+Lesson 3:
+┌──────────────────────────────────────────┐
+│ [Thumbnail]  ✓ Floating on Front      │
+│              Duration: 15 min          │
+│              COMPLETED                 │
+│              ★★★☆☆ Self-rated         │
+│              "Practice again" suggested│
+└────────────────────────────────────────┘
+
+Lesson 4:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  🔄 Floating on Back     │
+│              Duration: 15 min         │
+│              IN PROGRESS - 60%        │
+│              Last watched: Yesterday  │
+│              "Continue" button        │
+└──────────────────────────────────────┘
+
+Lesson 5:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ○ Submerging & Breath   │
+│              Control                  │
+│              Duration: 10 min         │
+│              NOT STARTED              │
+│              🔒 Complete Lesson 4     │
+└──────────────────────────────────────┘
+
+Lesson 6:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ○ Basic Movement in     │
+│              Water                    │
+│              Duration: 12 min         │
+│              NOT STARTED              │
+│              🔒 Complete Lesson 5     │
+└──────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RECOMMENDED FOR YOU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Section Header]
+"💡 Recommended for You"
+"Based on your progress"
+
+[Horizontal Scrollable Cards]
+
+Card 1:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Dryland: Breathing      │
+│ Exercises               │
+│ 5 min • Complement your │
+│ Lesson 2                │
+│ "Start" button          │
+└─────────────────────────┘
+
+Card 2:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Pool Practice: Float    │
+│ Drills                  │
+│ 20 min • Practice what  │
+│ you've learned          │
+│ "Start" button          │
+└─────────────────────────┘
+
+Card 3:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Common Mistakes: Back   │
+│ Float                   │
+│ 3 min • Troubleshooting │
+│ "Watch" button          │
+└─────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUICK ACCESS SECTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Expandable Sections]
+
+▼ Favorited Lessons (2)
+  - Shows bookmarked lessons
+
+▼ Recently Watched (5)
+  - History of recent lesson views
+
+▼ Downloads (3)
+  - Lessons saved for offline viewing
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ALL MODULES BROWSER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Link Button]
+"Browse All Modules →"
+
+User taps button
+    ↓
+[Full Module Library]
+Shows all levels and modules in grid:
+- Beginner Level 1 (Current)
+- Beginner Level 2 (Locked)
+- Intermediate Level 1 (Locked)
+- Intermediate Level 2 (Locked)
+- Advanced (Locked)
+
+Can preview locked content
+Shows "Upgrade to Premium" for locked content
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USER INTERACTION PATHS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Path A: User continues current lesson
+    ↓
+Taps Lesson 4 "Continue" button
+    ↓
+CONTINUE TO: Lesson Detail Screen
+
+Path B: User reviews completed lesson
+    ↓
+Taps completed Lesson 2
+    ↓
+CONTINUE TO: Lesson Detail Screen (shows as review)
+
+Path C: User tries to access locked lesson
+    ↓
+Taps Lesson 5 (locked)
+    ↓
+[Alert Modal]
+"Complete Previous Lesson First"
+"You need to complete 'Floating on Back' before accessing this lesson."
+Buttons:
+- "Go to Lesson 4"
+- "Close"
+
+Path D: User searches for specific topic
+    ↓
+Taps search bar
+    ↓
+[Search Screen]
+Keyboard appears
+Search suggestions shown:
+- "breathing"
+- "freestyle"
+- "fear of water"
+- Recent searches
+
+User types: "breathing"
+    ↓
+[Search Results]
+Filters: All | Lessons | Drills | Articles
+Results displayed:
+- Breathing Fundamentals (Lesson)
+- Rhythmic Breathing (Lesson)
+- Dryland Breathing Exercises
+- "Trouble Breathing?" Article
+- Community posts about breathing
+
+User taps a result
+    ↓
+Navigates to selected content
