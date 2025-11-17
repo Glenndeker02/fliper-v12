@@ -2,6 +2,212 @@
 
 ## 2025-11-17
 
+### Payment & Subscriptions System with RevenueCat (Latest)
+
+Complete implementation of monetization infrastructure using RevenueCat SDK for in-app purchases and subscription management.
+
+#### 1. Core Infrastructure
+- **RevenueCat SDK Integration:**
+  - Installed `react-native-purchases` package
+  - Platform-specific API key configuration (iOS/Android)
+  - User ID-based initialization on app launch
+  - Customer info synchronization with Supabase
+
+- **Subscription Types & Constants** (`/constants/subscriptionTypes.ts`):
+  - **Subscription Tiers:** Free, Premium, Pro
+  - **Subscription Periods:** Monthly, Yearly
+  - **Subscription Status:** Active, Expired, Cancelled, In Trial, None
+  - Feature access configuration per tier
+  - Product IDs and entitlement mapping
+  - Helper functions for tier/status display
+
+#### 2. Feature Access Control
+- **Feature Access Matrix:**
+  - **Free Tier:**
+    - Basic lessons only
+    - Basic dryland exercises
+    - Limited community posts (3/day)
+    - Limited journal entries (10/month)
+    - Basic analytics
+    - No AI features
+    - Ads enabled
+
+  - **Premium Tier ($9.99/month or $79.99/year):**
+    - All lessons and dryland exercises
+    - AI feedback and coaching
+    - Unlimited community posts (10/day)
+    - Advanced analytics
+    - 50 journal entries/month
+    - Voice journal
+    - Offline mode
+    - Ad-free
+
+  - **Pro Tier ($19.99/month or $159.99/year):**
+    - Everything in Premium
+    - Custom dryland builder
+    - Advanced AI analysis
+    - Unlimited community posts
+    - Unlimited journal entries
+    - Video journal
+    - Priority support
+    - Early access to new features
+
+#### 3. RevenueCat Utilities (`/utils/purchases.ts`)
+- **Purchase Management:**
+  - `initializePurchases()` - SDK initialization with user ID
+  - `getCustomerInfo()` - Fetch current subscription data
+  - `getCurrentSubscriptionTier()` - Get active tier from entitlements
+  - `getSubscriptionStatus()` - Check subscription status
+  - `getOfferings()` - Fetch available products from RevenueCat
+  - `getSubscriptionPlans()` - Map RevenueCat packages to app plans
+  - `purchaseSubscription()` - Process subscription purchase
+  - `restorePurchases()` - Restore previous purchases
+  - `syncSubscriptionToDatabase()` - Sync RevenueCat data to Supabase
+  - `hasActiveSubscription()` - Check if user has paid tier
+  - `getUserSubscription()` - Get subscription from database
+  - `refreshSubscriptionStatus()` - Force refresh from RevenueCat
+
+#### 4. React Hooks
+- **useSubscription Hook** (`/hooks/useSubscription.ts`):
+  - Manages subscription state with React Query
+  - Auto-initializes RevenueCat on mount
+  - Provides subscription data: tier, status, available plans
+  - Purchase and restore actions with loading states
+  - Automatic cache invalidation on changes
+  - Error handling and retry logic
+
+- **useFeatureAccess Hook** (`/hooks/useFeatureAccess.ts`):
+  - Feature gating based on subscription tier
+  - Check access to specific features
+  - Get feature limits (e.g., posts per day)
+  - Specialized checks for lessons, dryland, AI features
+  - Usage limit validation
+  - FeatureGate component for conditional rendering
+
+#### 5. User Interface
+- **Paywall Screen** (`/app/paywall.tsx`):
+  - Beautiful gradient header with feature highlights
+  - Subscription plan cards with tier badges
+  - "Most Popular" and "Current Plan" indicators
+  - Pricing display with period (monthly/yearly)
+  - Savings badges for annual plans
+  - Feature lists per plan
+  - Plan selection with visual feedback
+  - Sticky bottom CTA with subscribe button
+  - Restore purchases option
+  - Terms and conditions disclaimer
+  - Loading states during purchase
+  - Success/error alerts with user feedback
+
+- **Subscription Management Screen** (`/app/settings/subscription.tsx`):
+  - Current subscription overview card
+  - Tier badge with icon (Crown for Pro, Star for Premium)
+  - Status indicator (Active, Cancelled, Expired, Trial)
+  - Billing period and dates (started, expires/renews)
+  - "Manage Subscription" button (links to App Store/Play Store)
+  - "Upgrade to Pro" CTA for Premium users
+  - "Upgrade to Premium" CTA for Free users
+  - Refresh status button
+  - Benefits list with checkmarks
+  - Feature comparison by tier
+  - Platform-specific subscription info
+
+- **More Tab Integration** (`/app/(tabs)/more.tsx`):
+  - Premium subscription card with gradient background
+  - Crown icon with golden accent
+  - "Upgrade to Premium" CTA
+  - Links to subscription management screen
+  - Prominent placement after marketplace card
+
+#### 6. Database Schema (`/supabase/subscription-schema.sql`)
+- **user_subscriptions Table:**
+  - User subscription tier and status
+  - Subscription period (monthly/yearly)
+  - Start, expiration, and cancellation dates
+  - RevenueCat user ID and entitlement ID
+  - Metadata for additional info
+  - Unique constraint on user_id
+  - RLS policies for user privacy
+
+- **subscription_history Table:**
+  - Event tracking (purchase, upgrade, downgrade, renewal, cancellation)
+  - From/to tier tracking
+  - Transaction amounts and currency
+  - RevenueCat transaction IDs
+  - Timestamp for each event
+  - Automatic logging via trigger
+
+- **subscription_usage Table:**
+  - Monthly usage tracking (period-based)
+  - Community post/comment counts
+  - Journal entry counts (text, voice, video)
+  - AI request counts
+  - Lesson/dryland access counts
+  - Automatic period initialization
+  - Usage increment functions
+
+#### 7. Database Functions
+- `log_subscription_change()` - Trigger to log tier changes to history
+- `initialize_usage_period()` - Create monthly usage period
+- `get_current_usage()` - Get or create current month's usage
+- `increment_usage()` - Increment specific usage counter
+
+#### 8. Technical Features
+- **Error Handling:**
+  - User cancellation detection
+  - Network error handling
+  - RevenueCat API error handling
+  - Fallback to default plans if API fails
+  - Database sync error logging
+
+- **Caching & Performance:**
+  - React Query caching (30s for tier/status, 5min for plans)
+  - Optimistic updates on purchase
+  - Cache invalidation on mutations
+  - Background data refresh
+
+- **Security:**
+  - Row Level Security on all tables
+  - User-scoped queries
+  - Server-side validation (RevenueCat)
+  - Secure API key storage (env vars)
+
+#### 9. Integration Points
+- **App Launch:** Initialize RevenueCat in root layout
+- **Home Screen:** Premium badge for free users
+- **Lessons:** Feature gating for advanced content
+- **Dryland:** Feature gating for custom builder
+- **Community:** Post limit enforcement
+- **Journal:** Entry limit enforcement
+- **AI Features:** Access control for feedback/coaching/analysis
+
+#### 10. Platform Support
+- **iOS:** App Store Connect integration, StoreKit support
+- **Android:** Google Play Console integration, Play Billing support
+- **Web:** Fallback UI (subscription management links to app stores)
+
+#### Files Created/Modified:
+- ✅ `/constants/subscriptionTypes.ts` - Types and feature access config
+- ✅ `/utils/purchases.ts` - RevenueCat SDK integration
+- ✅ `/hooks/useSubscription.ts` - Subscription state management
+- ✅ `/hooks/useFeatureAccess.ts` - Feature gating logic
+- ✅ `/app/paywall.tsx` - Subscription purchase screen
+- ✅ `/app/settings/subscription.tsx` - Subscription management
+- ✅ `/supabase/subscription-schema.sql` - Database schema
+- ✅ `/app/(tabs)/more.tsx` - Added subscription card
+- ✅ `package.json` - Added react-native-purchases dependency
+
+#### Next Steps:
+- Configure RevenueCat dashboard with product IDs
+- Set up App Store Connect / Google Play Console products
+- Add environment variables for API keys
+- Test purchase flow on iOS/Android devices
+- Implement usage tracking in community/journal features
+- Add subscription analytics and metrics
+- Create subscription reminder notifications
+
+---
+
 ### Phase 1 MVP Features Implementation
 
 This update includes comprehensive implementation of Phase 1 features as outlined in the product roadmap:

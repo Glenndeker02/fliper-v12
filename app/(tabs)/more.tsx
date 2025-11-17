@@ -15,6 +15,8 @@ import {
   Trophy,
   Share2,
   ShoppingBag,
+  CreditCard,
+  Crown,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
@@ -148,7 +150,7 @@ export default function MoreScreen() {
 
           {/* Marketplace Card */}
           <View style={styles.section}>
-            <Pressable 
+            <Pressable
               style={styles.marketplaceCard}
               onPress={openMarketplace}
             >
@@ -161,6 +163,27 @@ export default function MoreScreen() {
                   </Text>
                 </View>
                 <ChevronRight size={20} color={Colors.text.light} />
+              </View>
+            </Pressable>
+          </View>
+
+          {/* Subscription Card */}
+          <View style={styles.section}>
+            <Pressable
+              style={styles.subscriptionCard}
+              onPress={() => router.push('/settings/subscription' as any)}
+            >
+              <View style={styles.subscriptionCardContent}>
+                <View style={styles.subscriptionIconContainer}>
+                  <Crown size={24} color="#FFD700" fill="#FFD700" />
+                </View>
+                <View style={styles.subscriptionTextContainer}>
+                  <Text style={styles.subscriptionTitle}>Upgrade to Premium</Text>
+                  <Text style={styles.subscriptionDescription}>
+                    Unlock all lessons, AI coaching, and advanced features
+                  </Text>
+                </View>
+                <ChevronRight size={20} color={Colors.text.white} />
               </View>
             </Pressable>
           </View>
@@ -541,6 +564,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400' as const,
     color: Colors.text.secondary,
+    lineHeight: 20,
+  },
+  subscriptionCard: {
+    backgroundColor: Colors.primary.turquoise,
+    borderRadius: 20,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  subscriptionCardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+  },
+  subscriptionIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subscriptionTextContainer: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  subscriptionTitle: {
+    fontSize: 18,
+    fontWeight: '700' as const,
+    color: Colors.text.white,
+    marginBottom: 4,
+  },
+  subscriptionDescription: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+    color: 'rgba(255, 255, 255, 0.9)',
     lineHeight: 20,
   },
 });
