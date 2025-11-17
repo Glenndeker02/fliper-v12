@@ -5,19 +5,23 @@ import {
   Text,
   View,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { 
-  TrendingUp, 
-  Calendar, 
-  Award, 
-  Target, 
+import { useRouter } from 'expo-router';
+import {
+  TrendingUp,
+  Calendar,
+  Award,
+  Target,
   Clock,
   Droplet,
   Dumbbell,
   BookOpen,
-  Activity
+  Activity,
+  ChevronRight,
+  BarChart3,
 } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 
@@ -25,6 +29,7 @@ const { width } = Dimensions.get('window');
 
 export default function AnalyticsScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const weekData = [
     { day: 'M', lessons: 1, pool: 1, dryland: 0 },
@@ -58,6 +63,17 @@ export default function AnalyticsScreen() {
             <Text style={styles.headerTitle}>Analytics & Insights</Text>
             <Text style={styles.headerSubtitle}>Track your improvement over time</Text>
           </View>
+
+          <Pressable
+            style={styles.detailedButton}
+            onPress={() => router.push('/analytics/detailed')}
+          >
+            <View style={styles.detailedButtonContent}>
+              <BarChart3 size={20} color={Colors.primary.turquoise} strokeWidth={2.5} />
+              <Text style={styles.detailedButtonText}>View Detailed Analytics</Text>
+            </View>
+            <ChevronRight size={20} color={Colors.text.secondary} strokeWidth={2.5} />
+          </Pressable>
 
           <View style={styles.streakCard}>
             <View style={styles.streakIcon}>
@@ -526,5 +542,30 @@ const styles = StyleSheet.create({
     fontWeight: '400' as const,
     color: Colors.text.primary,
     lineHeight: 22,
+  },
+  detailedButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.background.white,
+    borderRadius: 16,
+    padding: 16,
+    marginHorizontal: 24,
+    marginBottom: 24,
+    shadowColor: Colors.ui.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  detailedButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  detailedButtonText: {
+    fontSize: 16,
+    fontWeight: '600' as const,
+    color: Colors.text.primary,
   },
 });

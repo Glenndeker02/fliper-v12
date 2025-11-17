@@ -2704,3 +2704,558 @@ User taps to expand
 │ "Build confidence in floating       │
 │ position without fear of losing     │
 │ control
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HOME DASHBOARD - DETAILED WIREFRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Streak Display]
+🔥 "12-day streak"
+Subtitle: "Your longest streak yet!"
+Tap to view streak details
+    ↓
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TODAY'S POSTURE SCORE (Hero Element)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Circular Progress Ring - Large]
+Center: "78%" (Today's swimming progress score)
+Ring color: Green (good performance)
+Subtitle: "Good progress today"
+Comparison: "↑ 5% better than yesterday"
+
+Below ring:
+"22% toward your 80% weekly goal"
+
+[Tap gesture]
+User taps on score ring
+    ↓
+[Expanded View Modal]
+Shows detailed breakdown:
+- Morning session: 85%
+- Afternoon session: 70%
+- Time in good form: 35 min
+- Time needing improvement: 10 min
+- Close button
+
+User taps outside modal or close button
+    ↓
+Returns to Dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TODAY'S ACTIVITY SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[4 Cards in 2x2 Grid]
+
+┌─────────────────┬─────────────────┐
+│ Session Time    │ Lessons Done    │
+│ ⏱️ 45 min      │ 📚 2 of 3       │
+│ Active today    │ Daily lessons   │
+└─────────────────┴─────────────────┘
+┌─────────────────┬─────────────────┐
+│ Current Streak  │ Points Earned   │
+│ 🔥 12 days     │ ⭐ +287        │
+│ Personal best!  │ Points today    │
+└─────────────────┴─────────────────┘
+
+Each card is tappable for more details
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTINUE LEARNING SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Card - Highlighted]
+Header: "Continue Learning"
+Icon: 🎓
+
+[Lesson Preview Card]
+Thumbnail: Video preview image
+Badge: "In Progress - 60% complete"
+Title: "Freestyle Breathing Technique"
+Module: "Freestyle Fundamentals > Lesson 4 of 6"
+Duration: "12 min"
+Progress bar: 60% filled
+
+[Large Button]
+"Resume Lesson"
+
+User can tap anywhere on card or button
+    ↓
+DECISION:
+- Tap "Resume Lesson" → Go to Lesson Detail (picks up where left off)
+- Scroll past → Continue viewing dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUICK ACTION SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Large Primary Button]
+"🏊 Start Pool Session"
+Subtext: "Your next practice awaits"
+
+User taps button
+    ↓
+CONTINUE TO: Pool Practice Session Flow
+    
+[Row of Secondary Action Buttons]
+
+┌────────────┬────────────┬────────────┐
+│ 💪 Quick   │ 📊 View    │ 🎯 Adjust  │
+│ Dryland    │ Progress   │ Goals      │
+└────────────┴────────────┴────────────┘
+
+User interaction:
+- Tap "Quick Dryland" → Go to Dryland Quick Start
+- Tap "View Progress" → Go to Progress Dashboard
+- Tap "Adjust Goals" → Go to Goal Settings
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TODAY'S INSIGHTS PANEL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Card with AI icon]
+Header: "💡 Insight for You"
+
+[Rotating personalized messages]
+Example shown:
+"Your best practice times are between 6-8 PM. You have a pool session scheduled for 7 PM today. Perfect timing!"
+
+[Daily Tip Card]
+Header: "💭 Today's Swimming Tip"
+Tip: "Focus on exhaling underwater - this makes inhaling easier and more natural"
+Link: "Learn more about breathing technique →"
+
+User taps "Learn more"
+    ↓
+Opens relevant lesson or article
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TODAY'S GOAL PROGRESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Goal Card]
+"Today's Goal"
+Goal: "Complete 3 learning activities"
+
+Progress visualization:
+[●●○] 2 of 3 complete
+
+Activities completed:
+✓ Watched lesson video
+✓ Completed dryland workout
+○ Pool practice session (pending)
+
+Button: "Complete Final Activity"
+    ↓
+User taps button
+    ↓
+Shows options:
+- Start Pool Session
+- Watch Another Lesson
+- Do Another Dryland Workout
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+UPCOMING SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Upcoming Events Card]
+"📅 Up Next"
+
+Next scheduled activity:
+"Pool session at LA Fitness"
+Time: "Today at 7:00 PM"
+Countdown: "In 2 hours 15 minutes"
+
+Buttons:
+- "Get Reminder"
+- "Reschedule"
+
+Below:
+"Next calibration check: In 3 days"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMMUNITY HIGHLIGHT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Card]
+Header: "👥 Community"
+
+[Friend Activity]
+Avatar: Alex's profile picture
+"Alex just earned the '30-Day Streak' badge! 🏆"
+Timestamp: "2 hours ago"
+
+[Trending Post Preview]
+User: @SwimmerMike
+"Just swam my first 100m without stopping! This app is amazing! 🎉"
+Reactions: 💪 42  ❤️ 18
+
+Button: "View Community Feed"
+    ↓
+User taps button
+    ↓
+CONTINUE TO: Community Feed Flow
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACTIVE CHALLENGE (if enrolled)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Challenge Card]
+Badge icon: 🏆
+"Weekly Warrior Challenge"
+Time remaining: "3 days left"
+
+Your Progress:
+Progress bar: 68% complete
+"340m of 500m goal"
+Your rank: "#23 of 2,847"
+
+Button: "View Leaderboard"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACHIEVEMENT NOTIFICATION (if new)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Notification Banner at top]
+Appears if new achievement earned since last login
+
+"🎉 New Achievement Unlocked!"
+Badge icon displayed
+"10 Lessons Mastered"
+"+250 Points"
+
+[Animated entrance]
+Slides down from top
+Auto-dismisses after 5 seconds
+Or user can tap to view full details
+Or swipe up to dismiss
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BOTTOM NAVIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Tab Bar - Always visible]
+
+┌──────┬──────┬──────┬──────┬──────┐
+│ Home │ Learn│Practice│Progress│Community│
+│  🏠  │  📚  │  🏊   │   📊  │   👥   │
+│  ●   │      │       │       │        │
+└──────┴──────┴──────┴──────┴────────┘
+
+Current tab (Home) highlighted with indicator dot
+
+USER INTERACTION PATHS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Path 1: User wants to continue learning
+    ↓
+Taps "Resume Lesson" on Continue Learning card
+    ↓
+CONTINUE TO: Lesson Detail Screen (Section 3)
+
+Path 2: User wants to start pool practice
+    ↓
+Taps "Start Pool Session" button
+    ↓
+CONTINUE TO: Pool Practice Session Flow (Section 4)
+
+Path 3: User wants to do dryland workout
+    ↓
+Taps "Quick Dryland" button
+    ↓
+CONTINUE TO: Dryland Workout Flow (Section 5)
+
+Path 4: User checks notifications
+    ↓
+Taps notification bell icon
+    ↓
+[Notifications Panel]
+Shows recent notifications:
+- Streak reminder
+- Friend activity
+- Challenge updates
+- Achievement earned
+    ↓
+User taps a notification
+    ↓
+Navigates to relevant screen
+
+Path 5: User browses lessons
+    ↓
+Taps "Learn" tab in bottom navigation
+    ↓
+CONTINUE TO: Learn Module Screen
+
+Path 6: User checks progress
+    ↓
+Taps "Progress" tab in bottom navigation
+    ↓
+CONTINUE TO: Progress Dashboard (Section 6)
+
+Path 7: User explores community
+    ↓
+Taps "Community" tab in bottom navigation
+    ↓
+CONTINUE TO: Community Feed (Section 7)
+
+Path 8: User accesses settings
+    ↓
+Taps profile avatar or settings gear
+    ↓
+[Settings Screen]
+Options displayed:
+- Profile
+- Preferences
+- Notifications
+- Privacy
+- Help & Support
+- About
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LEARN MODULE SCREEN - DETAILED WIREFRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+User taps "Learn" tab in bottom navigation
+    ↓
+[Learn Module Screen]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: "Learn"
+Subtitle: "Master swimming skills at your pace"
+
+[Search Bar]
+🔍 "Search lessons, techniques, drills..."
+Tap to activate search
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+YOUR LEARNING PATH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Current Level Banner]
+🏊 Beginner Level 1: Water Confidence & Safety
+Progress bar: 40% complete
+"4 of 6 lessons completed"
+
+[Horizontal Scrollable Module Cards]
+
+Current Module (Highlighted):
+┌──────────────────────────┐
+│ Water Confidence & Safety│
+│ 🎯 IN PROGRESS          │
+│ ━━━━━━━━━━━━━━━━━━━━━  │
+│ 4 of 6 lessons (40%)     │
+│ 2-4 weeks estimated      │
+└──────────────────────────┘
+
+Next Module (Locked):
+┌──────────────────────────┐
+│ Foundation Skills        │
+│ 🔒 LOCKED                │
+│ Complete Water Confidence│
+│ to unlock                │
+└──────────────────────────┘
+
+Future Modules (Greyed out):
+- Freestyle Fundamentals
+- Multiple Strokes
+- Advanced Techniques
+
+User can horizontal scroll to preview path
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CURRENT MODULE LESSONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Section Header]
+"Water Confidence & Safety"
+"Master these skills to build your foundation"
+
+[Lesson List - Vertical scrollable]
+
+Lesson 1:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ✓ Getting Comfortable   │
+│              in Water                 │
+│              Duration: 8 min          │
+│              COMPLETED                │
+│              ★★★★★ Self-rated        │
+└──────────────────────────────────────┘
+
+Lesson 2:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ✓ Breathing Fundamentals│
+│              Duration: 12 min         │
+│              COMPLETED                │
+│              ★★★★☆ Self-rated        │
+│              "Review" button          │
+└──────────────────────────────────────┘
+
+Lesson 3:
+┌──────────────────────────────────────────┐
+│ [Thumbnail]  ✓ Floating on Front      │
+│              Duration: 15 min          │
+│              COMPLETED                 │
+│              ★★★☆☆ Self-rated         │
+│              "Practice again" suggested│
+└────────────────────────────────────────┘
+
+Lesson 4:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  🔄 Floating on Back     │
+│              Duration: 15 min         │
+│              IN PROGRESS - 60%        │
+│              Last watched: Yesterday  │
+│              "Continue" button        │
+└──────────────────────────────────────┘
+
+Lesson 5:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ○ Submerging & Breath   │
+│              Control                  │
+│              Duration: 10 min         │
+│              NOT STARTED              │
+│              🔒 Complete Lesson 4     │
+└──────────────────────────────────────┘
+
+Lesson 6:
+┌──────────────────────────────────────┐
+│ [Thumbnail]  ○ Basic Movement in     │
+│              Water                    │
+│              Duration: 12 min         │
+│              NOT STARTED              │
+│              🔒 Complete Lesson 5     │
+└──────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RECOMMENDED FOR YOU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Section Header]
+"💡 Recommended for You"
+"Based on your progress"
+
+[Horizontal Scrollable Cards]
+
+Card 1:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Dryland: Breathing      │
+│ Exercises               │
+│ 5 min • Complement your │
+│ Lesson 2                │
+│ "Start" button          │
+└─────────────────────────┘
+
+Card 2:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Pool Practice: Float    │
+│ Drills                  │
+│ 20 min • Practice what  │
+│ you've learned          │
+│ "Start" button          │
+└─────────────────────────┘
+
+Card 3:
+┌─────────────────────────┐
+│ [Thumbnail]             │
+│ Common Mistakes: Back   │
+│ Float                   │
+│ 3 min • Troubleshooting │
+│ "Watch" button          │
+└─────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUICK ACCESS SECTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Expandable Sections]
+
+▼ Favorited Lessons (2)
+  - Shows bookmarked lessons
+
+▼ Recently Watched (5)
+  - History of recent lesson views
+
+▼ Downloads (3)
+  - Lessons saved for offline viewing
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ALL MODULES BROWSER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Link Button]
+"Browse All Modules →"
+
+User taps button
+    ↓
+[Full Module Library]
+Shows all levels and modules in grid:
+- Beginner Level 1 (Current)
+- Beginner Level 2 (Locked)
+- Intermediate Level 1 (Locked)
+- Intermediate Level 2 (Locked)
+- Advanced (Locked)
+
+Can preview locked content
+Shows "Upgrade to Premium" for locked content
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USER INTERACTION PATHS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Path A: User continues current lesson
+    ↓
+Taps Lesson 4 "Continue" button
+    ↓
+CONTINUE TO: Lesson Detail Screen
+
+Path B: User reviews completed lesson
+    ↓
+Taps completed Lesson 2
+    ↓
+CONTINUE TO: Lesson Detail Screen (shows as review)
+
+Path C: User tries to access locked lesson
+    ↓
+Taps Lesson 5 (locked)
+    ↓
+[Alert Modal]
+"Complete Previous Lesson First"
+"You need to complete 'Floating on Back' before accessing this lesson."
+Buttons:
+- "Go to Lesson 4"
+- "Close"
+
+Path D: User searches for specific topic
+    ↓
+Taps search bar
+    ↓
+[Search Screen]
+Keyboard appears
+Search suggestions shown:
+- "breathing"
+- "freestyle"
+- "fear of water"
+- Recent searches
+
+User types: "breathing"
+    ↓
+[Search Results]
+Filters: All | Lessons | Drills | Articles
+Results displayed:
+- Breathing Fundamentals (Lesson)
+- Rhythmic Breathing (Lesson)
+- Dryland Breathing Exercises
+- "Trouble Breathing?" Article
+- Community posts about breathing
+
+User taps a result
+    ↓
+Navigates to selected content
