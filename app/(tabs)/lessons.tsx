@@ -25,7 +25,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '@/constants/colors';
-import { MODULES, DRYLAND_EXERCISES } from '@/constants/mockData';
+import { MODULES, DRYLAND_EXERCISES, POOL_SESSIONS } from '@/constants/mockData';
 import FloatingJournalButton from '@/components/FloatingJournalButton';
 
 type TabOption = 'library' | 'dryland' | 'practice' | 'progress';
@@ -311,33 +311,18 @@ export default function LessonsScreen() {
 
               <View style={styles.practiceSessionsSection}>
                 <Text style={styles.subsectionTitle}>Pre-Built Sessions</Text>
-                {[
-                  {
-                    title: 'First Time in Pool',
-                    duration: '20 min',
-                    level: 'Beginner',
-                    description: 'Water confidence focus with gentle encouragement',
-                  },
-                  {
-                    title: 'Freestyle Fundamentals',
-                    duration: '30 min',
-                    level: 'Beginner-Intermediate',
-                    description: 'Freestyle skill drills and technique practice',
-                  },
-                  {
-                    title: 'Endurance Builder',
-                    duration: '45 min',
-                    level: 'Intermediate',
-                    description: 'Distance and stamina building workout',
-                  },
-                ].map((session, index) => (
-                  <Pressable key={index} style={styles.sessionCard}>
+                {POOL_SESSIONS.map((session) => (
+                  <Pressable
+                    key={session.id}
+                    style={styles.sessionCard}
+                    onPress={() => router.push(`/pool-session/${session.id}` as any)}
+                  >
                     <View style={styles.sessionContent}>
                       <View style={styles.sessionHeader}>
                         <View style={styles.levelBadgeSmall}>
                           <Text style={styles.levelBadgeText}>{session.level}</Text>
                         </View>
-                        <Text style={styles.sessionDuration}>{session.duration}</Text>
+                        <Text style={styles.sessionDuration}>{session.duration} min</Text>
                       </View>
                       <Text style={styles.sessionTitle}>{session.title}</Text>
                       <Text style={styles.sessionDescription}>{session.description}</Text>
