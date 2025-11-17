@@ -15,8 +15,7 @@ import {
   Trophy,
   Share2,
   ShoppingBag,
-  CreditCard,
-  Crown,
+  Download,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
@@ -167,23 +166,21 @@ export default function MoreScreen() {
             </Pressable>
           </View>
 
-          {/* Subscription Card */}
+          {/* Downloads Card */}
           <View style={styles.section}>
             <Pressable
-              style={styles.subscriptionCard}
-              onPress={() => router.push('/settings/subscription' as any)}
+              style={styles.marketplaceCard}
+              onPress={() => router.push('/downloads' as any)}
             >
-              <View style={styles.subscriptionCardContent}>
-                <View style={styles.subscriptionIconContainer}>
-                  <Crown size={24} color="#FFD700" fill="#FFD700" />
-                </View>
-                <View style={styles.subscriptionTextContainer}>
-                  <Text style={styles.subscriptionTitle}>Upgrade to Premium</Text>
-                  <Text style={styles.subscriptionDescription}>
-                    Unlock all lessons, AI coaching, and advanced features
+              <View style={styles.marketplaceCardContent}>
+                <Download size={24} color={Colors.primary.turquoise} />
+                <View style={styles.marketplaceTextContainer}>
+                  <Text style={styles.marketplaceTitle}>Downloads</Text>
+                  <Text style={styles.marketplaceDescription}>
+                    Manage your offline videos and watch lessons anywhere.
                   </Text>
                 </View>
-                <ChevronRight size={20} color={Colors.text.white} />
+                <ChevronRight size={20} color={Colors.text.light} />
               </View>
             </Pressable>
           </View>
@@ -209,7 +206,7 @@ export default function MoreScreen() {
                 icon={<Trophy size={20} color={Colors.accent.warning} />}
                 title="Challenges"
                 subtitle="Join competitions and earn rewards"
-                onPress={() => {}}
+                onPress={() => router.push('/challenges' as any)}
               />
               <View style={styles.divider} />
               <SettingItem

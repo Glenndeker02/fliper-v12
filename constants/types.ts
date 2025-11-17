@@ -358,3 +358,150 @@ export interface PoolSessionProgress {
     distance?: number;
   };
 }
+
+// Community Feed Types
+export interface CommunityUser {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  skillLevel: SkillLevel;
+  badges?: string[]; // Achievement badge IDs
+  isVerified?: boolean; // Verified coach or expert
+}
+
+export interface CommunityReaction {
+  type: 'like' | 'celebrate' | 'support' | 'motivate';
+  emoji: string; // '❤️' | '🎉' | '💪' | '🔥'
+  count: number;
+  userReacted: boolean; // Has current user reacted with this
+}
+
+export interface CommunityPost {
+  id: string;
+  author: CommunityUser;
+  type: 'story' | 'achievement' | 'milestone' | 'question' | 'tip';
+  content: string;
+  media?: {
+    type: 'image' | 'video';
+    url: string;
+    thumbnailUrl?: string;
+  }[];
+  achievement?: {
+    id: string;
+    title: string;
+    icon: string;
+    tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+  };
+  milestone?: {
+    type: 'streak' | 'lesson' | 'distance' | 'time' | 'level';
+    value: number | string;
+    label: string;
+  };
+  reactions: CommunityReaction[];
+  commentCount: number;
+  createdAt: string;
+  isPinned?: boolean;
+  tags?: string[];
+}
+
+export interface CommunityComment {
+  id: string;
+  postId: string;
+  author: CommunityUser;
+  content: string;
+  reactions: CommunityReaction[];
+  createdAt: string;
+  isCoachReply?: boolean;
+}
+
+export interface CommunityFilter {
+  type: 'all' | 'stories' | 'achievements' | 'milestones' | 'questions' | 'tips';
+  label: string;
+  icon?: string;
+}
+
+// Challenge/Competition Types (P2)
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  type: 'distance' | 'time' | 'streak' | 'lessons' | 'dryland';
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'all-levels';
+  goal: {
+    type: 'distance' | 'time' | 'count' | 'streak';
+    target: number;
+    unit: string; // 'meters', 'minutes', 'lessons', 'days'
+  };
+  rewards: {
+    xp: number;
+    badge?: string;
+    title?: string;
+  };
+  startDate: string;
+  endDate: string;
+  participantCount: number;
+  status: 'upcoming' | 'active' | 'completed';
+  imageUrl?: string;
+  rules: string[];
+}
+
+export interface ChallengeParticipation {
+  challengeId: string;
+  userId: string;
+  joinedAt: string;
+  currentProgress: number;
+  lastUpdated: string;
+  isCompleted: boolean;
+  completedAt?: string;
+  rank?: number;
+}
+
+export interface ChallengeLeaderboard {
+  challengeId: string;
+  entries: ChallengeLeaderboardEntry[];
+  userEntry?: ChallengeLeaderboardEntry;
+}
+
+export interface ChallengeLeaderboardEntry {
+  rank: number;
+  user: CommunityUser;
+  progress: number;
+  progressPercentage: number;
+  isCurrentUser: boolean;
+  completedAt?: string;
+}
+
+// Offline Downloads Types (P2)
+export interface VideoDownload {
+  id: string;
+  videoId: string;
+  lessonId: string;
+  title: string;
+  thumbnailUrl?: string;
+  duration: number;
+  quality: 'low' | 'medium' | 'high' | 'auto';
+  fileSize: number; // in bytes
+  fileSizeFormatted: string; // e.g., "125 MB"
+  status: 'pending' | 'downloading' | 'paused' | 'completed' | 'failed';
+  progress: number; // 0-100
+  downloadedBytes: number;
+  downloadedAt?: string;
+  expiresAt?: string; // Some downloads may have expiration
+  error?: string;
+  localUri?: string; // Local file path when downloaded
+}
+
+export interface DownloadQueueItem extends VideoDownload {
+  priority: number; // Lower number = higher priority
+  retryCount: number;
+  startedAt?: string;
+  pausedAt?: string;
+}
+
+export interface DownloadStats {
+  totalDownloads: number;
+  completedDownloads: number;
+  totalSize: number;
+  usedStorage: number;
+  activeDownloads: number;
+}
