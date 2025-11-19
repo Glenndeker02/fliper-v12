@@ -39,6 +39,7 @@ import {
   generateInsightNotification,
   calculateCurrentStreak,
 } from '@/utils/adaptiveNotifications';
+import { scheduleNotification } from '@/utils/notifications';
 
 export default function JournalEntry() {
   const { type } = useLocalSearchParams();
@@ -186,8 +187,11 @@ export default function JournalEntry() {
         );
 
         if (milestoneNotification) {
-          // TODO: Send milestone notification to notification system
-          console.log('Milestone achieved:', milestoneNotification);
+          await scheduleNotification({
+            title: milestoneNotification.title,
+            body: milestoneNotification.message,
+            data: milestoneNotification.context,
+          });
         }
 
         const insightNotification = generateInsightNotification(
@@ -196,8 +200,11 @@ export default function JournalEntry() {
         );
 
         if (insightNotification) {
-          // TODO: Send insight notification to notification system
-          console.log('New insight generated:', insightNotification);
+          await scheduleNotification({
+            title: insightNotification.title,
+            body: insightNotification.message,
+            data: insightNotification.context,
+          });
         }
       }
 
